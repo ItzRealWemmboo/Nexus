@@ -851,6 +851,9 @@
 @keyframes antiCheatSpin { to { transform:rotate(360deg); } }
 </style>
 
+<style id="pet-trade-styles">
+.trade-panel{max-width:1000px;margin:18px auto 0;padding:22px;background:linear-gradient(145deg,#111125,#0b0b16);border:1px solid #28283d;border-radius:12px}.trade-form{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px;align-items:end}.trade-form label{display:flex;flex-direction:column;gap:6px;color:#888;font-size:10px;font-weight:900;letter-spacing:1px}.trade-form select{background:#090910;color:#fff;border:1px solid #29293a;border-radius:8px;padding:11px;font:inherit;font-size:12px;min-height:44px}.trade-form select:focus{border-color:#00ffff;outline:none}.trade-form button{min-height:44px}.trade-requests{display:grid;gap:8px;margin-top:14px}.trade-request{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid #29293a;background:#0b0b17;border-radius:10px;flex-wrap:wrap}.trade-request span{font-size:12px;color:#ddd}.trade-request strong{color:#00ffff}.trade-request-actions{display:flex;gap:8px}.trade-request-actions button{min-height:40px}@media(max-width:700px){.trade-form{grid-template-columns:1fr}.trade-form button{width:100%}}
+</style>
 <style id="mobile-fixes">
 html, body {
       touch-action: auto;
@@ -1192,7 +1195,7 @@ main { min-height: 100%; }
             <h3>🎨 EGG SKINS</h3>
             <p>Change the look of the egg you click. Skins are cosmetic and do not change your coin bonuses.</p>
           </div>
-          <div class="shop-level">OWNED <span id="skinCount">1 / 8</span></div>
+          <div class="shop-level">OWNED <span id="skinCount">1 / 20</span></div>
         </div>
         <div class="egg-skin-grid" id="eggSkinGrid"></div>
       </div>
@@ -1215,95 +1218,125 @@ main { min-height: 100%; }
 
         <div class="upgrade-grid">
           <button type="button" class="upgrade" onclick="buyUpgrade(0)">
-            <span>🥚 Golden Finger<small>+1 coin per click</small></span>
-            <strong id="cost0">50</strong>
+            <span>🥚 Starter Tap<small>+1 coin per click</small></span>
+            <strong id="cost0">10</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(1)">
-            <span>🖱️ Egg Mouse<small>+2 coins per click</small></span>
-            <strong id="cost1">125</strong>
+            <span>⚙️ Starter Generator<small>+1 coin every second</small></span>
+            <strong id="cost1">25</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(2)">
-            <span>⚡ Turbo Clicker<small>+5 coins per click</small></span>
-            <strong id="cost2">400</strong>
+            <span>🖱️ Egg Mouse<small>+4 coins per click</small></span>
+            <strong id="cost2">60</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(3)">
-            <span>🤖 Egg Bot<small>+3 coins every second</small></span>
-            <strong id="cost3">800</strong>
+            <span>🏭 Mini Hatchery<small>+5 coins every second</small></span>
+            <strong id="cost3">100</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(4)">
-            <span>🔥 Frying Pan<small>+10 coins per click</small></span>
-            <strong id="cost4">1,750</strong>
+            <span>⚡ Turbo Clicker<small>+15 coins per click</small></span>
+            <strong id="cost4">250</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(5)">
-            <span>🐔 Golden Chicken<small>+15 coins every second</small></span>
-            <strong id="cost5">3,500</strong>
+            <span>🐔 Golden Chicken<small>+25 coins every second</small></span>
+            <strong id="cost5">450</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(6)">
-            <span>💎 Diamond Egg<small>+25 coins per click</small></span>
-            <strong id="cost6">7,500</strong>
+            <span>💎 Diamond Finger<small>+55 coins per click</small></span>
+            <strong id="cost6">1,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(7)">
-            <span>🧲 Coin Magnet<small>+50% coin gain</small></span>
-            <strong id="cost7">25,000</strong>
+            <span>🏭 Coin Factory<small>+100 coins every second</small></span>
+            <strong id="cost7">1,800</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(8)">
-            <span>🚀 Egg Rocket<small>+50 coins every second</small></span>
-            <strong id="cost8">50,000</strong>
+            <span>🌟 Cosmic Clicker<small>+250 coins per click</small></span>
+            <strong id="cost8">4,500</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(9)">
-            <span>🌟 Cosmic Egg<small>+100 coins per click</small></span>
-            <strong id="cost9">100,000</strong>
+            <span>🚀 Rocket Hatchery<small>+500 coins every second</small></span>
+            <strong id="cost9">7,500</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(10)">
-            <span>👑 Egg Crown<small>+150 coins every second</small></span>
-            <strong id="cost10">250,000</strong>
+            <span>🌌 Galaxy Tap<small>+1,200 coins per click</small></span>
+            <strong id="cost10">20,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(11)">
-            <span>🌌 Galaxy Nest<small>+250 coins per click</small></span>
-            <strong id="cost11">500,000</strong>
+            <span>🌌 Galaxy Generator<small>+2,500 coins every second</small></span>
+            <strong id="cost11">35,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(12)">
-            <span>🛸 Alien Egg<small>+500 coins every second</small></span>
-            <strong id="cost12">1,000,000</strong>
+            <span>👽 Alien Clicker<small>+6,000 coins per click</small></span>
+            <strong id="cost12">90,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(13)">
-            <span>☄️ Meteor Egg<small>+1,000 coins per click</small></span>
-            <strong id="cost13">2,500,000</strong>
+            <span>⚛️ Alien Reactor<small>+12,500 coins every second</small></span>
+            <strong id="cost13">150,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(14)">
-            <span>🏭 Egg Factory<small>+2,500 coins every second</small></span>
-            <strong id="cost14">5,000,000</strong>
+            <span>☄️ Meteor Clicker<small>+30,000 coins per click</small></span>
+            <strong id="cost14">400,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(15)">
-            <span>⚛️ Quantum Egg<small>+5,000 coins per click</small></span>
-            <strong id="cost15">10,000,000</strong>
+            <span>🏭 Meteor Factory<small>+70,000 coins every second</small></span>
+            <strong id="cost15">700,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(16)">
-            <span>🌀 Time Egg<small>+10,000 coins every second</small></span>
-            <strong id="cost16">25,000,000</strong>
+            <span>🔮 Quantum Tap<small>+160,000 coins per click</small></span>
+            <strong id="cost16">2,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(17)">
-            <span>💀 Forbidden Egg<small>+25,000 coins per click</small></span>
-            <strong id="cost17">50,000,000</strong>
+            <span>⚛️ Quantum Generator<small>+400,000 coins every second</small></span>
+            <strong id="cost17">3,500,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(18)">
-            <span>🌍 Planet Egg<small>+50,000 coins every second</small></span>
-            <strong id="cost18">100,000,000</strong>
+            <span>🌍 Planet Clicker<small>+900,000 coins per click</small></span>
+            <strong id="cost18">10,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(19)">
-            <span>👽 Multiverse Egg<small>+100,000 coins per click</small></span>
-            <strong id="cost19">250,000,000</strong>
+            <span>🏭 Planet Factory<small>+2,500,000 coins every second</small></span>
+            <strong id="cost19">18,000,000</strong>
           </button>
-          <button type="button" class="upgrade" onclick="buyUpgrade(20)"><span>🌠 Stellar Engine<small>+250,000 coins every second</small></span><strong id="cost20">500,000,000</strong></button>
-          <button type="button" class="upgrade" onclick="buyUpgrade(21)"><span>🔮 Reality Core<small>+500,000 coins per click</small></span><strong id="cost21">1,000,000,000</strong></button>
-          <button type="button" class="upgrade" onclick="buyUpgrade(22)"><span>🪐 Dimension Farm<small>+1,000,000 coins every second</small></span><strong id="cost22">2,500,000,000</strong></button>
-          <button type="button" class="upgrade" onclick="buyUpgrade(23)"><span>💫 Infinity Core<small>+2,500,000 coins per click</small></span><strong id="cost23">5,000,000,000</strong></button>
-          <button type="button" class="upgrade" onclick="buyUpgrade(24)"><span>🛰️ Quantum Factory<small>+5,000,000 coins every second</small></span><strong id="cost24">10,000,000,000</strong></button>
-          <button type="button" class="upgrade" onclick="buyUpgrade(25)"><span>🧿 Omniverse Eye<small>+10,000,000 coins per click</small></span><strong id="cost25">25,000,000,000</strong></button>
-          <button type="button" class="upgrade" onclick="buyUpgrade(26)"><span>☀️ Solar Empire<small>+25,000,000 coins every second</small></span><strong id="cost26">50,000,000,000</strong></button>
-          <button type="button" class="upgrade" onclick="buyUpgrade(27)"><span>🌌 Cosmic Reactor<small>+50,000,000 coins per click</small></span><strong id="cost27">100,000,000,000</strong></button>
-          <button type="button" class="upgrade" onclick="buyUpgrade(28)"><span>♾️ Infinity Factory<small>+100,000,000 coins every second</small></span><strong id="cost28">250,000,000,000</strong></button>
-          <button type="button" class="upgrade" onclick="buyUpgrade(29)"><span>👑 NEXUS Ascender<small>+250,000,000 coins per click</small></span><strong id="cost29">500,000,000,000</strong></button>
+          <button type="button" class="upgrade" onclick="buyUpgrade(20)">
+            <span>🌠 Stellar Engine<small>+5,000,000 coins per click</small></span>
+            <strong id="cost20">50,000,000</strong>
+          </button>
+          <button type="button" class="upgrade" onclick="buyUpgrade(21)">
+            <span>⚙️ Stellar Generator<small>+14,000,000 coins every second</small></span>
+            <strong id="cost21">90,000,000</strong>
+          </button>
+          <button type="button" class="upgrade" onclick="buyUpgrade(22)">
+            <span>🔮 Reality Core<small>+30,000,000 coins per click</small></span>
+            <strong id="cost22">250,000,000</strong>
+          </button>
+          <button type="button" class="upgrade" onclick="buyUpgrade(23)">
+            <span>⚛️ Reality Reactor<small>+90,000,000 coins every second</small></span>
+            <strong id="cost23">450,000,000</strong>
+          </button>
+          <button type="button" class="upgrade" onclick="buyUpgrade(24)">
+            <span>💫 Infinity Core<small>+180,000,000 coins per click</small></span>
+            <strong id="cost24">1,200,000,000</strong>
+          </button>
+          <button type="button" class="upgrade" onclick="buyUpgrade(25)">
+            <span>♾️ Infinity Generator<small>+550,000,000 coins every second</small></span>
+            <strong id="cost25">2,200,000,000</strong>
+          </button>
+          <button type="button" class="upgrade" onclick="buyUpgrade(26)">
+            <span>🧿 Omniverse Eye<small>+1,100,000,000 coins per click</small></span>
+            <strong id="cost26">6,000,000,000</strong>
+          </button>
+          <button type="button" class="upgrade" onclick="buyUpgrade(27)">
+            <span>🏭 Omniverse Factory<small>+3,500,000,000 coins every second</small></span>
+            <strong id="cost27">11,000,000,000</strong>
+          </button>
+          <button type="button" class="upgrade" onclick="buyUpgrade(28)">
+            <span>🚀 NEXUS Ascender<small>+7,000,000,000 coins per click</small></span>
+            <strong id="cost28">30,000,000,000</strong>
+          </button>
+          <button type="button" class="upgrade" onclick="buyUpgrade(29)">
+            <span>♾️ NEXUS Generator<small>+22,000,000,000 coins every second</small></span>
+            <strong id="cost29">55,000,000,000</strong>
+          </button>
         </div>
 
         <p id="upgradeMessage">Buy an upgrade to increase your egg empire.</p>
@@ -1359,9 +1392,24 @@ main { min-height: 100%; }
           <h3>PET COLLECTION</h3>
           <p>Your pets stay with you through rebirths and boost your coins.</p>
         </div>
-        <div class="shop-level">PETS <span id="petCount">0 / 24</span></div>
+        <div class="shop-level">PETS <span id="petCount">0 / 40</span></div>
       </div>
       <div class="pet-grid" id="petGrid"></div>
+    </div>
+
+    <div class="trade-panel" id="petTradePanel">
+      <div class="shop-header">
+        <div><h3>🤝 PET TRADING</h3><p>Trade unique pets with players in the same NEXUS room.</p></div>
+        <div class="shop-level">P2P TRADING</div>
+      </div>
+      <div class="trade-form">
+        <label>PLAYER<select id="tradeTarget"></select></label>
+        <label>YOUR PET<select id="tradeOfferPet"></select></label>
+        <label>THEIR PET<select id="tradeRequestPet"></select></label>
+        <button type="button" class="primary" onclick="sendPetTrade()">SEND TRADE OFFER</button>
+      </div>
+      <div id="tradeRequests" class="trade-requests"></div>
+      <p id="tradeMessage" class="pet-status">Join a room with another player to trade pets.</p>
     </div>
 
     <div class="rebirth-box">
@@ -1447,6 +1495,18 @@ main { min-height: 100%; }
 })();
 </script>
 <script>
+    // Compact number display for the game UI.
+    function formatNumber(value) {
+      const n = Number(value) || 0, a = Math.abs(n);
+      if (a >= 1e15) return (n/1e15).toFixed(a>=1e16?0:2).replace(/\.?0+$/, "")+"q";
+      if (a >= 1e12) return (n/1e12).toFixed(a>=1e13?0:2).replace(/\.?0+$/, "")+"t";
+      if (a >= 1e9) return (n/1e9).toFixed(a>=1e10?0:2).replace(/\.?0+$/, "")+"b";
+      if (a >= 1e6) return (n/1e6).toFixed(a>=1e7?0:2).replace(/\.?0+$/, "")+"m";
+      if (a >= 1e3) return (n/1e3).toFixed(a>=1e4?0:2).replace(/\.?0+$/, "")+"k";
+      return Number.isInteger(n) ? String(n) : n.toFixed(2).replace(/\.?0+$/, "");
+    }
+    Number.prototype.toLocaleString = function(){ return formatNumber(this.valueOf()); };
+
     let coins = 0;
     let clicks = 0;
     let power = 1;
@@ -1460,11 +1520,14 @@ main { min-height: 100%; }
     let clickEggLevel = 0;
     let petMutation = null;
     let eggMutations = [];
-    let petVariants = Array(24).fill(null);
+    let petVariants = Array(40).fill(null);
     let peer = null;
     let hostPeer = null;
     let connections = [];
     let onlineNames = [];
+    let roomConnection = null;
+    let pendingTradeRequests = [];
+    let tradeCounter = 0;
     let selectedEggSkin = 0;
     let ownedEggSkins = [true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
     let antiCheatWarningIssued = false;
@@ -1492,10 +1555,10 @@ main { min-height: 100%; }
         power = Number(d.power) || 1; autoIncome = Number(d.autoIncome) || 0;
         multiplier = Number(d.multiplier) || 1; rebirths = Number(d.rebirths) || 0;
         purchased = Array.isArray(d.purchased) ? d.purchased : Array(upgrades.length).fill(0);
-        ownedPets = Array.isArray(d.ownedPets) ? d.ownedPets : Array(pets.length).fill(false);
+        ownedPets = Array.from({length:pets.length}, (_,i) => !!(Array.isArray(d.ownedPets) && d.ownedPets[i]));
         clickEggLevel = Number(d.clickEggLevel) || 0;
         petMutation = d.petMutation || null; eggMutations = Array.isArray(d.eggMutations) ? d.eggMutations : [];
-        petVariants = Array.isArray(d.petVariants) ? d.petVariants : Array(pets.length).fill(null);
+        petVariants = Array.from({length:pets.length}, (_,i) => Array.isArray(d.petVariants) ? (d.petVariants[i] || null) : null);
         selectedEggSkin = Number.isInteger(d.selectedEggSkin) ? d.selectedEggSkin : 0;
         ownedEggSkins = Array.isArray(d.ownedEggSkins) ? d.ownedEggSkins : ownedEggSkins;
         antiCheatWarningIssued = !!d.antiCheatWarningIssued;
@@ -1586,10 +1649,10 @@ main { min-height: 100%; }
         coins = Number(d.coins) || 0; clicks = Number(d.clicks) || 0; power = Number(d.power) || 1;
         autoIncome = Number(d.autoIncome) || 0; multiplier = Number(d.multiplier) || 1; rebirths = Number(d.rebirths) || 0;
         purchased = Array.isArray(d.purchased) ? d.purchased : Array(upgrades.length).fill(0);
-        ownedPets = Array.isArray(d.ownedPets) ? d.ownedPets : Array(pets.length).fill(false);
+        ownedPets = Array.from({length:pets.length}, (_,i) => !!(Array.isArray(d.ownedPets) && d.ownedPets[i]));
         clickEggLevel = Number(d.clickEggLevel) || 0; petMutation = d.petMutation || null;
         eggMutations = Array.isArray(d.eggMutations) ? d.eggMutations : [];
-        petVariants = Array.isArray(d.petVariants) ? d.petVariants : Array(pets.length).fill(null);
+        petVariants = Array.from({length:pets.length}, (_,i) => Array.isArray(d.petVariants) ? (d.petVariants[i] || null) : null);
         selectedEggSkin = Number.isInteger(d.selectedEggSkin) ? d.selectedEggSkin : 0;
         ownedEggSkins = Array.isArray(d.ownedEggSkins) ? d.ownedEggSkins : ownedEggSkins;
         antiCheatWarningIssued = !!d.antiCheatWarningIssued;
@@ -2053,36 +2116,36 @@ main { min-height: 100%; }
     }
 
     const upgrades = [
-      { name:"Golden Finger", cost:10, click:1, auto:0, multiplier:1 },
-      { name:"Egg Mouse", cost:50, click:2, auto:0, multiplier:1 },
-      { name:"Turbo Clicker", cost:150, click:5, auto:0, multiplier:1 },
-      { name:"Egg Bot", cost:400, click:0, auto:3, multiplier:1 },
-      { name:"Frying Pan", cost:900, click:10, auto:0, multiplier:1 },
-      { name:"Golden Chicken", cost:2000, click:0, auto:15, multiplier:1 },
-      { name:"Diamond Egg", cost:5000, click:25, auto:0, multiplier:1 },
-      { name:"Coin Magnet", cost:25000, click:0, auto:0, multiplier:1.5 },
-      { name:"Egg Rocket", cost:50000, click:0, auto:50, multiplier:1 },
-      { name:"Cosmic Egg", cost:100000, click:100, auto:0, multiplier:1 },
-      { name:"Egg Crown", cost:250000, click:0, auto:150, multiplier:1 },
-      { name:"Galaxy Nest", cost:500000, click:250, auto:0, multiplier:1 },
-      { name:"Alien Egg", cost:1000000, click:0, auto:500, multiplier:1 },
-      { name:"Meteor Egg", cost:2500000, click:1000, auto:0, multiplier:1 },
-      { name:"Egg Factory", cost:5000000, click:0, auto:2500, multiplier:1 },
-      { name:"Quantum Egg", cost:10000000, click:5000, auto:0, multiplier:1 },
-      { name:"Time Egg", cost:25000000, click:0, auto:10000, multiplier:1 },
-      { name:"Forbidden Egg", cost:50000000, click:25000, auto:0, multiplier:1 },
-      { name:"Planet Egg", cost:100000000, click:0, auto:50000, multiplier:1 },
-      { name:"Multiverse Egg", cost:250000000, click:100000, auto:0, multiplier:1 },
-      { name:"Stellar Engine", cost:500000000, click:0, auto:250000, multiplier:1 },
-      { name:"Reality Core", cost:1000000000, click:500000, auto:0, multiplier:1 },
-      { name:"Dimension Farm", cost:2500000000, click:0, auto:1000000, multiplier:1 },
-      { name:"Infinity Core", cost:5000000000, click:2500000, auto:0, multiplier:1 },
-      { name:"Quantum Factory", cost:10000000000, click:0, auto:5000000, multiplier:1 },
-      { name:"Omniverse Eye", cost:25000000000, click:10000000, auto:0, multiplier:1 },
-      { name:"Solar Empire", cost:50000000000, click:0, auto:25000000, multiplier:1 },
-      { name:"Cosmic Reactor", cost:100000000000, click:50000000, auto:0, multiplier:1 },
-      { name:"Infinity Factory", cost:250000000000, click:0, auto:100000000, multiplier:1 },
-      { name:"NEXUS Ascender", cost:500000000000, click:250000000, auto:0, multiplier:1 }
+      { name:"Starter Tap", cost:10, click:1, auto:0, multiplier:1 },
+      { name:"Starter Generator", cost:25, click:0, auto:1, multiplier:1 },
+      { name:"Egg Mouse", cost:60, click:4, auto:0, multiplier:1 },
+      { name:"Mini Hatchery", cost:100, click:0, auto:5, multiplier:1 },
+      { name:"Turbo Clicker", cost:250, click:15, auto:0, multiplier:1 },
+      { name:"Golden Chicken", cost:450, click:0, auto:25, multiplier:1 },
+      { name:"Diamond Finger", cost:1000, click:55, auto:0, multiplier:1 },
+      { name:"Coin Factory", cost:1800, click:0, auto:100, multiplier:1 },
+      { name:"Cosmic Clicker", cost:4500, click:250, auto:0, multiplier:1 },
+      { name:"Rocket Hatchery", cost:7500, click:0, auto:500, multiplier:1 },
+      { name:"Galaxy Tap", cost:20000, click:1200, auto:0, multiplier:1 },
+      { name:"Galaxy Generator", cost:35000, click:0, auto:2500, multiplier:1 },
+      { name:"Alien Clicker", cost:90000, click:6000, auto:0, multiplier:1 },
+      { name:"Alien Reactor", cost:150000, click:0, auto:12500, multiplier:1 },
+      { name:"Meteor Clicker", cost:400000, click:30000, auto:0, multiplier:1 },
+      { name:"Meteor Factory", cost:700000, click:0, auto:70000, multiplier:1 },
+      { name:"Quantum Tap", cost:2000000, click:160000, auto:0, multiplier:1 },
+      { name:"Quantum Generator", cost:3500000, click:0, auto:400000, multiplier:1 },
+      { name:"Planet Clicker", cost:10000000, click:900000, auto:0, multiplier:1 },
+      { name:"Planet Factory", cost:18000000, click:0, auto:2500000, multiplier:1 },
+      { name:"Stellar Engine", cost:50000000, click:5000000, auto:0, multiplier:1 },
+      { name:"Stellar Generator", cost:90000000, click:0, auto:14000000, multiplier:1 },
+      { name:"Reality Core", cost:250000000, click:30000000, auto:0, multiplier:1 },
+      { name:"Reality Reactor", cost:450000000, click:0, auto:90000000, multiplier:1 },
+      { name:"Infinity Core", cost:1200000000, click:180000000, auto:0, multiplier:1 },
+      { name:"Infinity Generator", cost:2200000000, click:0, auto:550000000, multiplier:1 },
+      { name:"Omniverse Eye", cost:6000000000, click:1100000000, auto:0, multiplier:1 },
+      { name:"Omniverse Factory", cost:11000000000, click:0, auto:3500000000, multiplier:1 },
+      { name:"NEXUS Ascender", cost:30000000000, click:7000000000, auto:0, multiplier:1 },
+      { name:"NEXUS Generator", cost:55000000000, click:0, auto:22000000000, multiplier:1 }
     ];
 
     const pets = [
@@ -2093,7 +2156,11 @@ main { min-height: 100%; }
       { name:"Robot Chick", icon:"🤖", bonus:15.00 }, { name:"Ice Wolf", icon:"❄️", bonus:18.00 }, { name:"Shadow Cat", icon:"🐈‍⬛", bonus:25.00 },
       { name:"Storm Eagle", icon:"⚡", bonus:30.00 }, { name:"Lava Dragon", icon:"🌋", bonus:40.00 }, { name:"Moon Bunny", icon:"🌙", bonus:55.00 },
       { name:"Rainbow Unicorn", icon:"🌈", bonus:75.00 }, { name:"Void Dragon", icon:"🌀", bonus:100.00 }, { name:"Galaxy Phoenix", icon:"☄️", bonus:150.00 },
-      { name:"Titan Dragon", icon:"👹", bonus:250.00 }, { name:"Cosmic Titan", icon:"🌌", bonus:500.00 }, { name:"NEXUS God", icon:"👑", bonus:1000.00 }
+      { name:"Titan Dragon", icon:"👹", bonus:250.00 }, { name:"Cosmic Titan", icon:"🌌", bonus:500.00 }, { name:"NEXUS God", icon:"👑", bonus:1000.00 },
+      { name:"Ember Fox", icon:"🦊", bonus:120.00 }, { name:"Frost Dragon", icon:"🐲", bonus:180.00 }, { name:"Thunder Cat", icon:"🐯", bonus:225.00 }, { name:"Solar Wolf", icon:"☀️", bonus:300.00 },
+      { name:"Nebula Bunny", icon:"🐇", bonus:375.00 }, { name:"Plasma Phoenix", icon:"🔥", bonus:450.00 }, { name:"Cyber Dragon", icon:"🤖", bonus:600.00 }, { name:"Void Reaper", icon:"💀", bonus:750.00 },
+      { name:"Aurora Serpent", icon:"🐍", bonus:900.00 }, { name:"Quantum Fox", icon:"🦊", bonus:1250.00 }, { name:"Star Devourer", icon:"⭐", bonus:1750.00 }, { name:"Infinity Dragon", icon:"♾️", bonus:2500.00 },
+      { name:"NEXUS Titan", icon:"👑", bonus:4000.00 }, { name:"Cosmic Emperor", icon:"🌠", bonus:7500.00 }, { name:"Reality Beast", icon:"🌀", bonus:12000.00 }, { name:"Omniverse God", icon:"🌌", bonus:25000.00 }
     ];
 
     const eggTypes = [
@@ -2104,7 +2171,9 @@ main { min-height: 100%; }
       { name:"Galaxy Egg", icon:"🌌", cost:100000, description:"Epic pets", pool:[4,5,6,7,7,8,9] },
       { name:"Volcano Egg", icon:"🌋", cost:500000, description:"Lava pets", pool:[7,10,16,17,18,19] },
       { name:"Mythic Egg", icon:"🔥", cost:1000000, description:"Legendary pets", pool:[7,8,9,10,10,11,15] },
-      { name:"NEXUS Egg", icon:"👑", cost:100000000, description:"Ultra rare pets", pool:[19,20,21,22,23] }
+      { name:"NEXUS Egg", icon:"👑", cost:100000000, description:"Ultra rare pets", pool:[19,20,21,22,23,24,25,26] },
+      { name:"Quantum Egg", icon:"⚛️", cost:1000000000, description:"Reality-bending pets", pool:[27,28,29,30,31,32,33] },
+      { name:"Omniverse Egg", icon:"🌌", cost:10000000000, description:"The rarest NEXUS pets", pool:[34,35,36,37,38,39] }
     ];
 
     let upgradeBuyAmount = 1;
@@ -2252,6 +2321,46 @@ main { min-height: 100%; }
       saveProgress();
     }
 
+    function escapeHtml(s){ return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
+    function renderTradePanel(){
+      const target=document.getElementById("tradeTarget"), offer=document.getElementById("tradeOfferPet"), request=document.getElementById("tradeRequestPet"); if(!target||!offer||!request)return;
+      const players=onlineNames.filter(n=>n&&n.toLowerCase()!==playerName.toLowerCase());
+      target.innerHTML=players.length?players.map(n=>`<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join(""):`<option value="">No other players</option>`;
+      const mine=pets.map((p,i)=>({p,i})).filter(x=>ownedPets[x.i]);
+      offer.innerHTML=mine.length?mine.map(x=>`<option value="${x.i}">${x.p.icon} ${escapeHtml(x.p.name)}</option>`).join(""):`<option value="">No pets owned</option>`;
+      request.innerHTML=pets.map((p,i)=>`<option value="${i}">${p.icon} ${escapeHtml(p.name)}</option>`).join("");
+      const box=document.getElementById("tradeRequests"); if(box)box.innerHTML=pendingTradeRequests.map(r=>`<div class="trade-request"><span><strong>${escapeHtml(r.from)}</strong> wants your <strong>${escapeHtml(pets[r.requestedPet]?.name||"pet")}</strong> for their <strong>${escapeHtml(pets[r.offeredPet]?.name||"pet")}</strong>.</span><div class="trade-request-actions"><button type="button" class="primary" onclick="acceptPetTrade('${escapeHtml(r.id)}')">ACCEPT</button><button type="button" class="secondary" onclick="declinePetTrade('${escapeHtml(r.id)}')">DECLINE</button></div></div>`).join("");
+    }
+    function findConnectionFor(name){return connections.find(c=>c._nexusName&&c._nexusName.toLowerCase()===String(name).toLowerCase()&&c.open);}
+    function sendTradePacket(packet,targetName){
+      if(hostPeer===peer){ if(targetName.toLowerCase()===playerName.toLowerCase()){handleTradePacket(packet);return;} const c=findConnectionFor(targetName); if(c)c.send(packet); else document.getElementById("tradeMessage").textContent="That player is no longer connected."; }
+      else if(roomConnection&&roomConnection.open) roomConnection.send(Object.assign({},packet,{routeTo:targetName}));
+      else document.getElementById("tradeMessage").textContent="You are not connected to the room host.";
+    }
+    function sendPetTrade(){
+      const target=document.getElementById("tradeTarget")?.value, offeredPet=Number(document.getElementById("tradeOfferPet")?.value), requestedPet=Number(document.getElementById("tradeRequestPet")?.value);
+      if(!target){document.getElementById("tradeMessage").textContent="Join another player before sending a trade.";return;}
+      if(!ownedPets[offeredPet]){document.getElementById("tradeMessage").textContent="You do not own that pet.";return;}
+      if(offeredPet===requestedPet){document.getElementById("tradeMessage").textContent="Trading a pet for itself would be impressively pointless.";return;}
+      const id=playerName+"-"+Date.now()+"-"+(++tradeCounter); sendTradePacket({type:"tradeRequest",id,from:playerName,to:target,offeredPet,requestedPet},target); document.getElementById("tradeMessage").textContent="Trade offer sent to "+target+".";
+    }
+    function acceptPetTrade(id){
+      const r=pendingTradeRequests.find(x=>x.id===id); if(!r)return;
+      if(!ownedPets[r.requestedPet]||ownedPets[r.offeredPet]){document.getElementById("tradeMessage").textContent="Trade failed because one of the pets is no longer available.";pendingTradeRequests=pendingTradeRequests.filter(x=>x.id!==id);renderTradePanel();return;}
+      ownedPets[r.requestedPet]=false; ownedPets[r.offeredPet]=true;
+      const v=petVariants[r.requestedPet]; petVariants[r.requestedPet]=null; petVariants[r.offeredPet]=v||petVariants[r.offeredPet]||null;
+      pendingTradeRequests=pendingTradeRequests.filter(x=>x.id!==id); sendTradePacket({type:"tradeAccepted",id,from:playerName,to:r.from,offeredPet:r.offeredPet,requestedPet:r.requestedPet},r.from); renderPets();renderTradePanel();updateGame();document.getElementById("tradeMessage").textContent="Trade accepted!";
+    }
+    function declinePetTrade(id){const r=pendingTradeRequests.find(x=>x.id===id);if(!r)return;pendingTradeRequests=pendingTradeRequests.filter(x=>x.id!==id);renderTradePanel();sendTradePacket({type:"tradeDeclined",id,from:playerName,to:r.from},r.from);}
+    function handleTradePacket(data){
+      if(!data||!data.type)return;
+      if(data.type==="tradeRequest"&&data.to?.toLowerCase()===playerName.toLowerCase()){pendingTradeRequests.push(data);renderTradePanel();document.getElementById("tradeMessage").textContent="New trade offer from "+data.from+".";}
+      else if(data.type==="tradeAccepted"&&data.to?.toLowerCase()===playerName.toLowerCase()){
+        if(!ownedPets[data.offeredPet]||ownedPets[data.requestedPet]){document.getElementById("tradeMessage").textContent="Trade could not complete because your pet changed.";return;}
+        ownedPets[data.offeredPet]=false;ownedPets[data.requestedPet]=true;const v=petVariants[data.requestedPet];petVariants[data.requestedPet]=petVariants[data.offeredPet]||null;petVariants[data.offeredPet]=v||null;renderPets();updateGame();document.getElementById("tradeMessage").textContent="Trade completed! You received "+pets[data.requestedPet].name+".";
+      } else if(data.type==="tradeDeclined"&&data.to?.toLowerCase()===playerName.toLowerCase()) document.getElementById("tradeMessage").textContent=data.from+" declined your trade.";
+    }
+
     function startOnlineRoom() {
       if (!window.Peer) { document.getElementById("onlineStatus").textContent = "Offline mode"; return; }
       if (peer) { try { peer.destroy(); } catch(e){} }
@@ -2272,9 +2381,10 @@ main { min-height: 100%; }
       connections.push(conn);
       conn.on("open", () => { conn.send({type:"welcome", names:onlineNames}); });
       conn.on("data", data => {
-        if (data && data.type === "hello" && data.name) { if (!onlineNames.includes(data.name)) onlineNames.push(data.name); broadcastNames(); updateOnlineCount(); }
+        if (data && data.type === "hello" && data.name) { conn._nexusName=data.name; if (!onlineNames.includes(data.name)) onlineNames.push(data.name); broadcastNames(); updateOnlineCount(); }
+        else if (data && (data.type === "tradeRequest" || data.type === "tradeAccepted" || data.type === "tradeDeclined")) { const dest=data.routeTo||data.to; if(dest&&dest.toLowerCase()===playerName.toLowerCase()) handleTradePacket(data); else { const target=findConnectionFor(dest); if(target) target.send(data); } }
       });
-      conn.on("close", () => { connections = connections.filter(c => c !== conn); updateOnlineCount(); });
+      conn.on("close", () => { connections=connections.filter(c=>c!==conn); if(conn._nexusName) onlineNames=onlineNames.filter(n=>n.toLowerCase()!==conn._nexusName.toLowerCase()); broadcastNames(); updateOnlineCount(); });
     }
 
     function joinAsGuest() {
@@ -2282,22 +2392,25 @@ main { min-height: 100%; }
       peer = guest;
       guest.on("open", () => {
         const conn = guest.connect("nexus-egg-" + gameCode.toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 20));
-        conn.on("open", () => { conn.send({type:"hello", name:playerName}); document.getElementById("onlineStatus").textContent = "Connected to room"; });
-        conn.on("data", data => { if (data.type === "welcome" || data.type === "names") { onlineNames = data.names || [playerName]; updateOnlineCount(); } });
+        conn.on("open", () => { roomConnection=conn; conn.send({type:"hello", name:playerName}); document.getElementById("onlineStatus").textContent="Connected to room"; renderTradePanel(); });
+        conn.on("data", data => { if (data.type === "welcome" || data.type === "names") { onlineNames=data.names||[playerName]; updateOnlineCount(); } else if (data.type === "tradeRequest" || data.type === "tradeAccepted" || data.type === "tradeDeclined") handleTradePacket(data); });
+        conn.on("close", () => { if(roomConnection===conn)roomConnection=null; onlineNames=[playerName]; updateOnlineCount(); });
         conn.on("error", () => document.getElementById("onlineStatus").textContent = "Room not found or offline");
       });
       guest.on("error", () => document.getElementById("onlineStatus").textContent = "Online connection unavailable");
     }
 
     function broadcastNames() { connections.forEach(c => { if (c.open) c.send({type:"names", names:onlineNames}); }); }
-    function updateOnlineCount() { document.getElementById("onlineCount").textContent = Math.max(1, onlineNames.length); }
+    function updateOnlineCount() { document.getElementById("onlineCount").textContent = Math.max(1, onlineNames.length); renderTradePanel(); }
 
     // Load the signed-in local account first. Only fall back to the legacy global save when no account is signed in.
     const hasLocalAccountSave = !!localAccountUsername && loadLocalAccountProgress(localAccountUsername);
     if (!hasLocalAccountSave) loadProgress();
     if (!Array.isArray(purchased) || !purchased.length) purchased = Array(upgrades.length).fill(0);
     if (!Array.isArray(ownedPets) || !ownedPets.length) ownedPets = Array(pets.length).fill(false);
-    renderPets(); renderEggs(); renderEggSkins(); updateEggSkinVisual();
+    if (ownedPets.length !== pets.length) ownedPets = Array.from({length:pets.length}, (_,i)=>!!ownedPets[i]);
+    if (!Array.isArray(petVariants) || petVariants.length !== pets.length) petVariants = Array.from({length:pets.length}, (_,i)=>petVariants[i]||null);
+    renderPets(); renderEggs(); renderEggSkins(); updateEggSkinVisual(); renderTradePanel();
     updateAudioButton(); updateUpgradeBatchPrices(); updateGame();
 
     setInterval(() => {

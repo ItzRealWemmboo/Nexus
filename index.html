@@ -1345,7 +1345,39 @@ main { min-height: 100%; }
     <div>ENTER THE GAME. OWN THE MOMENT.</div>
   </footer>
 
-  <script>
+  <style id="mobile-egg-zoom-fix">
+#eggButton, #bigClickEgg, .egg-button, .big-click-egg {
+  touch-action: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+</style>
+
+<script id="mobile-egg-zoom-fix-js">
+(function(){
+  function blockEggZoom(){
+    const eggs = document.querySelectorAll('#eggButton, #bigClickEgg, .egg-button, .big-click-egg');
+    eggs.forEach(function(egg){
+      ['touchstart','touchmove','touchend','gesturestart','gesturechange','gestureend'].forEach(function(type){
+        egg.addEventListener(type, function(e){
+          if (type === 'touchmove' || type.indexOf('gesture') === 0) e.preventDefault();
+        }, {passive:false});
+      });
+      let lastTouchEnd = 0;
+      egg.addEventListener('touchend', function(e){
+        const now = Date.now();
+        if (now - lastTouchEnd < 350) e.preventDefault();
+        lastTouchEnd = now;
+      }, {passive:false});
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', blockEggZoom);
+  else blockEggZoom();
+})();
+</script>
+<script>
     let coins = 0;
     let clicks = 0;
     let power = 1;

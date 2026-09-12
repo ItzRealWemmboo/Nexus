@@ -792,6 +792,24 @@
 
 
 <style id="autoclicker-styles">
+.audio-control-panel {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin:14px 0;
+      padding:12px 14px;
+      border:1px solid #25253a;
+      background:rgba(10,10,20,.75);
+      border-radius:12px;
+    }
+    .audio-control-panel span { color:#777; font-size:12px; }
+    .audio-toggle { min-width:150px; }
+    @media (max-width:600px) {
+      .audio-control-panel { flex-direction:column; align-items:stretch; }
+      .audio-control-panel span { text-align:center; }
+    }
+
 .auto-clicker-panel { max-width: 1000px; margin: 18px auto 0; padding: 16px 20px; background:#0e0e1b; border:1px solid #222; display:flex; justify-content:space-between; align-items:center; gap:15px; flex-wrap:wrap; }
 .auto-clicker-info { color:#aaa; font-size:12px; }
 .auto-clicker-info strong { color:#00ffff; display:block; font-size:14px; margin-bottom:4px; }
@@ -799,6 +817,20 @@
 .auto-clicker-button.active { border-color:#00ffff; box-shadow:0 0 18px rgba(0,255,255,.25); }
 .auto-clicker-status { color:#777; font-size:11px; margin-top:4px; }
 #eggButton:disabled { opacity:.55; cursor:not-allowed; filter:saturate(.7); }
+</style>
+
+<style id="anti-cheat-overlay-styles">
+.anti-cheat-overlay { position:fixed; inset:0; z-index:99999; display:none; align-items:center; justify-content:center; padding:24px; box-sizing:border-box; background:radial-gradient(circle at 50% 35%, rgba(255,0,170,.35), transparent 35%), linear-gradient(135deg,#12002b,#001d3d 45%,#260018); overflow:hidden; }
+.anti-cheat-overlay.show { display:flex; animation: antiCheatIn .25s ease-out; }
+.anti-cheat-overlay::before { content:""; position:absolute; inset:-50%; background:conic-gradient(from 0deg, transparent, rgba(0,255,255,.16), transparent, rgba(255,0,170,.18), transparent); animation:antiCheatSpin 5s linear infinite; }
+.anti-cheat-card { position:relative; width:min(720px,100%); padding:42px 30px 34px; text-align:center; border:3px solid #ff2bd6; border-radius:28px; background:rgba(8,8,25,.94); box-shadow:0 0 35px rgba(255,43,214,.65), 0 0 90px rgba(0,255,255,.25); }
+.anti-cheat-card h2 { margin:0 0 12px; font-size:clamp(34px,7vw,68px); color:#ff2bd6; text-shadow:0 0 18px #ff2bd6, 0 0 38px #00ffff; }
+.anti-cheat-card p { margin:10px auto; max-width:560px; color:#fff; font-size:clamp(15px,2.5vw,22px); line-height:1.5; }
+.anti-cheat-card .warning-sub { color:#00ffff; font-weight:800; letter-spacing:2px; }
+.anti-cheat-close { position:absolute; top:12px; right:14px; width:48px; height:48px; min-height:0 !important; border:2px solid #00ffff; border-radius:50%; background:#10102a; color:#fff; font-size:28px; font-weight:900; cursor:pointer; box-shadow:0 0 15px rgba(0,255,255,.5); }
+.anti-cheat-close:hover { transform:scale(1.08); background:#ff2bd6; }
+@keyframes antiCheatIn { from { opacity:0; transform:scale(1.03); } to { opacity:1; transform:scale(1); } }
+@keyframes antiCheatSpin { to { transform:rotate(360deg); } }
 </style>
 
 <style id="mobile-fixes">
@@ -865,6 +897,52 @@ main { min-height: 100%; }
   html, body { touch-action: pan-y pinch-zoom !important; }
   button, a { touch-action: manipulation; }
 }
+</style>
+
+<style id="visual-pet-egg-variants">
+  .pet { position:relative; overflow:hidden; transition:transform .18s, border-color .18s, box-shadow .18s, background .18s; }
+  .pet-visual { font-size:42px; line-height:1; display:block; margin-bottom:8px; filter:drop-shadow(0 0 8px rgba(255,255,255,.18)); }
+  .variant-badge, .egg-mutation-badge { display:inline-block; margin-top:6px; padding:3px 7px; border-radius:999px; font-size:9px; font-weight:900; letter-spacing:1px; text-transform:uppercase; }
+  .pet-variant-golden { border-color:#ffd700 !important; background:linear-gradient(145deg,#302500,#171727); box-shadow:0 0 18px rgba(255,215,0,.28), inset 0 0 18px rgba(255,215,0,.08); }
+  .pet-variant-golden .pet-visual { filter:sepia(1) saturate(4) brightness(1.25) drop-shadow(0 0 12px rgba(255,215,0,.8)); }
+  .pet-variant-golden .variant-badge { background:#ffd700; color:#211800; }
+  .pet-variant-silver { border-color:#dce6f2 !important; background:linear-gradient(145deg,#27313a,#171727); box-shadow:0 0 18px rgba(220,230,242,.25), inset 0 0 18px rgba(220,230,242,.08); }
+  .pet-variant-silver .pet-visual { filter:grayscale(1) brightness(1.65) drop-shadow(0 0 12px rgba(220,230,242,.8)); }
+  .pet-variant-silver .variant-badge { background:#dce6f2; color:#18202a; }
+  .pet-variant-rainbow { border-color:#ff55d8 !important; background:linear-gradient(135deg,rgba(255,0,128,.18),rgba(0,255,255,.16),rgba(255,255,0,.16),rgba(100,70,255,.18)); background-size:300% 300%; animation:rainbowShift 3s linear infinite; box-shadow:0 0 22px rgba(255,43,214,.35); }
+  .pet-variant-rainbow .pet-visual { filter:saturate(2) brightness(1.2) drop-shadow(0 0 14px rgba(255,255,255,.65)); }
+  .pet-variant-rainbow .variant-badge { background:linear-gradient(90deg,#ff3cac,#00e5ff,#ffe600); color:#111; }
+  .pet-variant-diamond { border-color:#70f7ff !important; background:linear-gradient(145deg,#12383e,#171727); box-shadow:0 0 25px rgba(112,247,255,.38), inset 0 0 20px rgba(112,247,255,.1); }
+  .pet-variant-diamond .pet-visual { filter:hue-rotate(150deg) saturate(2) brightness(1.25) drop-shadow(0 0 14px #70f7ff); }
+  .pet-variant-diamond .variant-badge { background:#70f7ff; color:#082226; }
+  .pet-variant-shadow { border-color:#9b59ff !important; background:linear-gradient(145deg,#160d25,#07070d); box-shadow:0 0 24px rgba(155,89,255,.35), inset 0 0 20px rgba(0,0,0,.5); }
+  .pet-variant-shadow .pet-visual { filter:brightness(.42) saturate(2) drop-shadow(0 0 10px #9b59ff); }
+  .pet-variant-shadow .variant-badge { background:#9b59ff; color:#fff; }
+  .pet-variant-neon { border-color:#00ff9d !important; background:linear-gradient(145deg,#08281e,#171727); box-shadow:0 0 24px rgba(0,255,157,.4), inset 0 0 20px rgba(0,255,157,.1); }
+  .pet-variant-neon .pet-visual { filter:saturate(3) brightness(1.35) drop-shadow(0 0 14px #00ff9d); }
+  .pet-variant-neon .variant-badge { background:#00ff9d; color:#052016; }
+  @keyframes rainbowShift { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+
+  .hatch-egg { position:relative; overflow:hidden; transition:transform .18s, border-color .18s, box-shadow .18s, background .18s; }
+  .hatch-egg .egg-icon { transition:filter .18s, transform .18s; }
+  .hatch-egg.mut-shiny { border-color:#e8f7ff; background:linear-gradient(145deg,#26313a,#171727); box-shadow:0 0 18px rgba(232,247,255,.28); }
+  .hatch-egg.mut-shiny .egg-icon { filter:grayscale(1) brightness(1.8) drop-shadow(0 0 14px white); transform:scale(1.08); }
+  .hatch-egg.mut-lucky { border-color:#7dff4d; background:linear-gradient(145deg,#183116,#171727); box-shadow:0 0 18px rgba(125,255,77,.3); }
+  .hatch-egg.mut-lucky .egg-icon { filter:saturate(2) brightness(1.3) drop-shadow(0 0 14px #7dff4d); transform:rotate(-4deg) scale(1.08); }
+  .hatch-egg.mut-charged { border-color:#00c8ff; background:linear-gradient(145deg,#102d3b,#171727); box-shadow:0 0 22px rgba(0,200,255,.35); }
+  .hatch-egg.mut-charged .egg-icon { filter:saturate(2) brightness(1.3) drop-shadow(0 0 16px #00c8ff); animation:chargedPulse .7s infinite alternate; }
+  .hatch-egg.mut-golden { border-color:#ffd700; background:linear-gradient(145deg,#352900,#171727); box-shadow:0 0 22px rgba(255,215,0,.38); }
+  .hatch-egg.mut-golden .egg-icon { filter:sepia(1) saturate(5) brightness(1.3) drop-shadow(0 0 16px #ffd700); }
+  .hatch-egg.mut-rainbow { border-color:#ff55d8; background:linear-gradient(135deg,rgba(255,0,128,.2),rgba(0,255,255,.18),rgba(255,255,0,.18),rgba(100,70,255,.2)); background-size:300% 300%; animation:rainbowShift 3s linear infinite; box-shadow:0 0 24px rgba(255,43,214,.38); }
+  .hatch-egg.mut-rainbow .egg-icon { filter:saturate(2.5) brightness(1.3) drop-shadow(0 0 16px white); }
+  .hatch-egg.mut-void { border-color:#a855f7; background:radial-gradient(circle at center,#28133e,#09090f 70%); box-shadow:0 0 24px rgba(168,85,247,.4); }
+  .hatch-egg.mut-void .egg-icon { filter:brightness(.45) saturate(2) drop-shadow(0 0 18px #a855f7); transform:scale(1.12); }
+  .hatch-egg.mut-plasma { border-color:#ff4d9d; background:linear-gradient(145deg,#3b1026,#171727); box-shadow:0 0 24px rgba(255,77,157,.42); }
+  .hatch-egg.mut-plasma .egg-icon { filter:hue-rotate(280deg) saturate(2.5) brightness(1.25) drop-shadow(0 0 16px #ff4d9d); animation:plasmaPulse .8s infinite alternate; }
+  .egg-mutation-badge { color:#111; }
+  .badge-shiny { background:#e8f7ff; } .badge-lucky { background:#7dff4d; } .badge-charged { background:#00c8ff; } .badge-golden { background:#ffd700; } .badge-rainbow { background:linear-gradient(90deg,#ff3cac,#00e5ff,#ffe600); } .badge-void { background:#a855f7;color:white; } .badge-plasma { background:#ff4d9d;color:white; }
+  @keyframes chargedPulse { from{transform:scale(1)} to{transform:scale(1.12) rotate(3deg)} }
+  @keyframes plasmaPulse { from{transform:scale(1)} to{transform:scale(1.1) rotate(-3deg)} }
 </style>
 </head>
 
@@ -990,6 +1068,11 @@ main { min-height: 100%; }
         <div class="share-buttons"><button type="button" class="secondary" onclick="copyShareLink()">SHARE ROOM LINK</button></div>
       </div>
 
+      <div class="audio-control-panel">
+        <button type="button" class="secondary audio-toggle" id="audioToggleButton" onclick="toggleAudio()" aria-pressed="false">🔊 AUDIO: ON</button>
+        <span>Toggle egg cracks and upgrade sounds</span>
+      </div>
+
       <div class="auto-clicker-panel">
         <div class="auto-clicker-info">
           <strong>🤖 AUTO CLICKER</strong>
@@ -1024,34 +1107,20 @@ main { min-height: 100%; }
         <div class="egg-skin-grid" id="eggSkinGrid"></div>
       </div>
 
-      <div class="egg-upgrade-panel">
-        <div class="egg-upgrade-visual">
-          <div class="egg-upgrade-glow"></div>
-          <div class="big-click-egg" id="bigClickEgg">🥚</div>
-        </div>
-        <div class="egg-upgrade-info">
-          <div class="tag">CLICK EGG UPGRADE</div>
-          <h3>EGG POWER</h3>
-          <p>Upgrade the egg you actually click. Each level makes the egg look more powerful and increases your click power.</p>
-          <div class="egg-level-line">LEVEL <strong id="eggUpgradeLevel">0</strong> <span>•</span> POWER <strong id="eggUpgradePower">1</strong></div>
-          <button type="button" class="primary" onclick="upgradeClickEgg()">UPGRADE CLICK EGG</button>
-          <div class="egg-upgrade-cost" id="eggUpgradeCost">Cost: 25 coins</div>
-        </div>
-      </div>
-
       <div class="upgrades">
         <div class="shop-header">
           <div>
             <h3>UPGRADE SHOP</h3>
             <p>Spend your coins. Acquire increasingly ridiculous egg technology.</p>
           </div>
-          <div class="shop-level">SHOP LVL <span id="shopLevel">1</span></div>
+          <div class="shop-level">COINS <span id="shopCoins">0</span> &nbsp;•&nbsp; SHOP LVL <span id="shopLevel">1</span></div>
         </div>
         <div class="upgrade-buy-controls" aria-label="Upgrade purchase amount">
           <span class="upgrade-buy-label">BUY:</span>
           <button type="button" id="buy1x" class="active" onclick="setUpgradeBuyAmount(1)">1x</button>
           <button type="button" id="buy10x" onclick="setUpgradeBuyAmount(10)">10x</button>
           <button type="button" id="buy100x" onclick="setUpgradeBuyAmount(100)">100x</button>
+          <span class="upgrade-price-note">Prices below show the selected batch total</span>
         </div>
 
         <div class="upgrade-grid">
@@ -1163,6 +1232,21 @@ main { min-height: 100%; }
 
       <div class="egg-grid" id="eggGrid"></div>
       <p id="hatchMessage" class="pet-status">Hatch an egg to discover a pet.</p>
+      <div class="egg-upgrade-panel">
+        <div class="egg-upgrade-visual">
+          <div class="egg-upgrade-glow"></div>
+          <div class="big-click-egg" id="bigClickEgg">🥚</div>
+        </div>
+        <div class="egg-upgrade-info">
+          <div class="tag">CLICK EGG UPGRADE</div>
+          <h3>EGG POWER</h3>
+          <p>Upgrade the egg you actually click. Each level makes the egg look more powerful and increases your click power.</p>
+          <div class="egg-level-line">LEVEL <strong id="eggUpgradeLevel">0</strong> <span>•</span> POWER <strong id="eggUpgradePower">1</strong></div>
+          <button type="button" class="primary" onclick="upgradeClickEgg()">UPGRADE CLICK EGG</button>
+          <div class="egg-upgrade-cost" id="eggUpgradeCost">Cost: 25 coins</div>
+        </div>
+      </div>
+
       <div class="mutation-panel">
         <div>
           <h3>🧬 RANDOM MUTATIONS</h3>
@@ -1254,12 +1338,17 @@ main { min-height: 100%; }
     let clickEggLevel = 0;
     let petMutation = null;
     let eggMutations = [];
+    let petVariants = Array(24).fill(null);
     let peer = null;
     let hostPeer = null;
     let connections = [];
     let onlineNames = [];
     let selectedEggSkin = 0;
-    let ownedEggSkins = [true, false, false, false, false, false, false, false];
+    let ownedEggSkins = [true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+    let antiCheatWarningIssued = false;
+    let suspiciousClickStreak = 0;
+    let lastManualClickTime = 0;
+    let antiCheatLocked = false;
 
     const eggSkins = [
       {name:"Classic", icon:"🥚", cost:0, desc:"The original egg."},
@@ -1269,7 +1358,19 @@ main { min-height: 100%; }
       {name:"Lava", icon:"🔴", cost:250000, desc:"Hot enough to hatch trouble."},
       {name:"Crystal", icon:"💎", cost:1000000, desc:"Shiny and ridiculous."},
       {name:"Void", icon:"🟣", cost:10000000, desc:"A tiny hole in reality."},
-      {name:"Robot", icon:"🤖", cost:100000000, desc:"For mechanically inclined eggs."}
+      {name:"Robot", icon:"🤖", cost:100000000, desc:"For mechanically inclined eggs."},
+      {name:"Rainbow", icon:"🌈", cost:250000000, desc:"Cycles through every color."},
+      {name:"Diamond", icon:"💎", cost:500000000, desc:"Cold, brilliant, absurdly shiny."},
+      {name:"Toxic", icon:"☢️", cost:1000000000, desc:"Radioactive-looking cyber egg."},
+      {name:"Plasma", icon:"🔵", cost:2500000000, desc:"Crackling superheated energy."},
+      {name:"Shadow", icon:"⚫", cost:5000000000, desc:"Darkness with a purple glow."},
+      {name:"Sun", icon:"☀️", cost:10000000000, desc:"A tiny artificial star."},
+      {name:"Ice", icon:"❄️", cost:25000000000, desc:"Frozen and glowing blue."},
+      {name:"Cyber", icon:"🟦", cost:50000000000, desc:"High-tech NEXUS circuitry."},
+      {name:"Magma", icon:"🌋", cost:100000000000, desc:"Molten core energy."},
+      {name:"Aurora", icon:"🟢", cost:250000000000, desc:"Northern-lights energy shell."},
+      {name:"Prismatic", icon:"🔮", cost:500000000000, desc:"Shifts through impossible colors."},
+      {name:"NEXUS", icon:"👑", cost:1000000000000, desc:"The ultimate egg skin."}
     ];
 
     function showEggTab(tab) {
@@ -1286,7 +1387,7 @@ main { min-height: 100%; }
       grid.innerHTML = eggSkins.map((skin, i) => {
         const owned = ownedEggSkins[i], selected = selectedEggSkin === i;
         const action = owned ? (selected ? "EQUIPPED" : "EQUIP") : "BUY · " + skin.cost.toLocaleString();
-        return `<div class="egg-skin ${selected ? "selected" : ""}"><div class="egg-skin-preview">${skin.icon}</div><strong>${skin.name}</strong><small>${skin.desc}</small><button type="button" class="${selected ? "secondary" : "primary"}" ${selected ? "disabled" : ""} onclick="${owned ? `equipEggSkin(${i})` : `buyEggSkin(${i})`}">${action}</button></div>`;
+        return `<div class="egg-skin ${selected ? "selected" : ""}"><div class="egg-skin-preview skin-preview-${i}">${skin.icon}</div><strong>${skin.name}</strong><small>${skin.desc}</small><button type="button" class="${selected ? "secondary" : "primary"}" ${selected ? "disabled" : ""} onclick="${owned ? `equipEggSkin(${i})` : `buyEggSkin(${i})`}">${action}</button></div>`;
       }).join("");
       document.getElementById("skinCount").textContent = ownedEggSkins.filter(Boolean).length + " / " + eggSkins.length;
     }
@@ -1294,8 +1395,8 @@ main { min-height: 100%; }
     function updateEggSkinVisual() {
       const skin = eggSkins[selectedEggSkin];
       const egg = document.getElementById("eggButton"), bigEgg = document.getElementById("bigClickEgg");
-      if (egg) egg.textContent = skin.icon;
-      if (bigEgg) bigEgg.textContent = skin.icon;
+      if (egg) { egg.textContent = skin.icon; egg.className = "egg-button egg-skin-active-" + selectedEggSkin; }
+      if (bigEgg) { bigEgg.textContent = skin.icon; bigEgg.className = "big-click-egg egg-skin-active-" + selectedEggSkin; }
       renderEggSkins();
     }
 
@@ -1357,12 +1458,23 @@ main { min-height: 100%; }
 
     function renderPets() {
       const grid = document.getElementById("petGrid");
-      grid.innerHTML = pets.map((pet, i) => `<div class="pet ${ownedPets[i] ? "bought" : ""}"><span class="pet-name">${pet.icon} ${pet.name}<small>+${Math.round((pet.bonus-1)*100)}% coin gain</small></span><strong id="pet${i}">${ownedPets[i] ? "OWNED" : "LOCKED"}</strong></div>`).join("");
+      grid.innerHTML = pets.map((pet, i) => {
+        const variant = petVariants[i];
+        const variantClass = variant ? " pet-variant-" + variant.toLowerCase() : "";
+        const variantBadge = variant ? `<span class="variant-badge">${variant}</span>` : "";
+        return `<div class="pet ${ownedPets[i] ? "bought" : ""}${variantClass}"><span class="pet-name"><span class="pet-visual">${pet.icon}</span>${pet.name}${variantBadge}<small>+${Math.round((pet.bonus-1)*100)}% coin gain</small></span><strong id="pet${i}">${ownedPets[i] ? "OWNED" : "LOCKED"}</strong></div>`;
+      }).join("");
     }
 
     function renderEggs() {
       const grid = document.getElementById("eggGrid");
-      grid.innerHTML = eggTypes.map((egg, i) => `<button type="button" class="hatch-egg" onclick="hatchEgg(${i})"><span class="egg-icon">${egg.icon}</span><span class="egg-name">${egg.name}<small>${egg.description}</small></span><strong>${egg.cost.toLocaleString()}</strong></button>`).join("");
+      const classMap = {Shiny:"mut-shiny", Lucky:"mut-lucky", Charged:"mut-charged", Golden:"mut-golden", Rainbow:"mut-rainbow", Void:"mut-void", Plasma:"mut-plasma"};
+      grid.innerHTML = eggTypes.map((egg, i) => {
+        const mutation = eggMutations[i];
+        const cls = mutation ? classMap[mutation.type] || "" : "";
+        const badge = mutation ? `<span class="egg-mutation-badge badge-${mutation.type.toLowerCase()}">${mutation.type} +${Math.round((mutation.bonus-1)*100)}%</span>` : "";
+        return `<button type="button" class="hatch-egg ${cls}" onclick="hatchEgg(${i})"><span class="egg-icon">${egg.icon}</span><span class="egg-name">${egg.name}${badge}<small>${egg.description}</small></span><strong>${egg.cost.toLocaleString()}</strong></button>`;
+      }).join("");
     }
 
     function joinEggGame() {
@@ -1375,6 +1487,7 @@ main { min-height: 100%; }
       coins = 0; clicks = 0; power = 1; clickEggLevel = 0; autoIncome = 0; multiplier = 1 + rebirths; petMutation = null; eggMutations = [];
       resetUpgrades();
       ownedPets = Array(pets.length).fill(false);
+      petVariants = Array(pets.length).fill(null);
       renderPets(); renderEggs();
       document.getElementById("playerDisplay").textContent = playerName;
       document.getElementById("codeDisplay").textContent = gameCode;
@@ -1409,11 +1522,167 @@ main { min-height: 100%; }
       egg.style.filter = "drop-shadow(0 0 " + Math.min(45,22 + clickEggLevel * 2) + "px rgba(0,255,255,.55))";
     }
 
+    let audioMuted = localStorage.getItem("nexusAudioMuted") === "1";
+    let nexusAudioContext = null;
+
+    function getNexusAudio() {
+      if (audioMuted) return null;
+      try {
+        if (!nexusAudioContext) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return null;
+          nexusAudioContext = new AudioCtx();
+        }
+        if (nexusAudioContext.state === "suspended") nexusAudioContext.resume().catch(() => {});
+        return nexusAudioContext;
+      } catch (e) { return null; }
+    }
+
+    function updateAudioButton() {
+      const button = document.getElementById("audioToggleButton");
+      if (!button) return;
+      button.textContent = audioMuted ? "🔇 AUDIO: OFF" : "🔊 AUDIO: ON";
+      button.setAttribute("aria-pressed", audioMuted ? "true" : "false");
+    }
+
+    function toggleAudio() {
+      audioMuted = !audioMuted;
+      localStorage.setItem("nexusAudioMuted", audioMuted ? "1" : "0");
+      updateAudioButton();
+      if (audioMuted && nexusAudioContext) {
+        try { nexusAudioContext.suspend(); } catch (e) {}
+      }
+    }
+
+    // Real egg-crack recording supplied for the click sound.
+    const realEggCrackAudio = new Audio("data:audio/mpeg;base64,SUQzBAAAAAABD1RYWFgAAAASAAADbWFqb3JfYnJhbmQAaXNvNABUWFhYAAAAEQAAA21pbm9yX3ZlcnNpb24AMABUWFhYAAAALAAAA2NvbXBhdGlibGVfYnJhbmRzAGlzbzRpc29tb2JzMWlzbzJhdmMxbXA0MQBUU1NFAAAADgAAA0xhdmY2MS43LjEwMwAAAAAAAAAAAAAA//twwAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAAbAAAiSQASEhIbGxsbJCQkJC0tLTY2NjY/Pz8/SUlJUlJSUltbW1tkZGRkbW1tdnZ2dn9/f3+JiYmSkpKSm5ubm6SkpK2tra22tra2v7+/v8nJydLS0tLb29vb5OTk7e3t7fb29vb///8AAAAATGF2YzYxLjE5AAAAAAAAAAAAAAAAJAWOAAAAAAAAIknHQPpuAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/7cMQAA8AAAaQAAAAgAAA0gAAABExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+3LEbQPAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVV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 ");
+    realEggCrackAudio.preload = "auto";
+
+    function playEggCrackSound() {
+      if (audioMuted) return;
+      try {
+        const crack = realEggCrackAudio.cloneNode(true);
+        crack.volume = 0.9;
+        crack.play().catch(() => {});
+      } catch (e) {}
+    }
+
+    function playCashSound() {
+      const ctx = getNexusAudio();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      [740, 1047, 1480].forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const t = now + i * 0.055;
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, t);
+        gain.gain.setValueAtTime(0.0001, t);
+        gain.gain.exponentialRampToValueAtTime(0.08, t + 0.008);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
+        osc.connect(gain).connect(ctx.destination);
+        osc.start(t); osc.stop(t + 0.17);
+      });
+    }
+
+    function antiCheatPenalty() {
+      const oldCoins = coins;
+      coins = Math.floor(coins * 0.25);
+
+      // Keep only 25% of purchased upgrade levels.
+      purchased = purchased.map(level => Math.floor((Number(level) || 0) * 0.25));
+
+      // Keep only 25% of owned pets, chosen at random.
+      const ownedIndexes = ownedPets.map((owned, i) => owned ? i : -1).filter(i => i >= 0);
+      const keepCount = Math.floor(ownedIndexes.length * 0.25);
+      for (let i = ownedIndexes.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [ownedIndexes[i], ownedIndexes[j]] = [ownedIndexes[j], ownedIndexes[i]];
+      }
+      ownedPets = Array(pets.length).fill(false);
+      ownedIndexes.slice(0, keepCount).forEach(i => ownedPets[i] = true);
+
+      // Rebuild stats from what remains.
+      power = 1;
+      autoIncome = 0;
+      multiplier = 1 + rebirths;
+      purchased.forEach((level, index) => {
+        const up = upgrades[index];
+        if (!up || !level) return;
+        power += (up.click || 0) * level;
+        autoIncome += (up.auto || 0) * level;
+        if (up.multiplier && up.multiplier !== 1) multiplier *= Math.pow(up.multiplier, level);
+      });
+      ownedPets.forEach((owned, index) => {
+        if (owned && pets[index]) multiplier *= pets[index].bonus;
+      });
+      clickEggLevel = 0;
+
+      const message = document.getElementById("eggMessage");
+      if (message) {
+        message.textContent = "🚨 AUTOCLICKER DETECTED! 75% of your coins, upgrades and pets were removed.";
+      }
+      showAntiCheatOverlay(true);
+      antiCheatLocked = true;
+      setTimeout(() => { antiCheatLocked = false; }, 1200);
+      updateGame();
+      renderPets();
+    }
+
+    function showAntiCheatOverlay(penalized) {
+      const overlay = document.getElementById("antiCheatOverlay");
+      const title = document.getElementById("antiCheatTitle");
+      const text = document.getElementById("antiCheatText");
+      if (!overlay) return;
+      if (penalized) {
+        title.textContent = "🚨 AUTOCLICKER CAUGHT";
+        text.textContent = "You were warned already. The anti-cheat penalty has now been applied.";
+      } else {
+        title.textContent = "⚠️ NICE AUTOCLICKER HUH?";
+        text.textContent = "That clicking speed looks a little suspicious.";
+      }
+      overlay.classList.add("show");
+    }
+
+    function closeAntiCheatOverlay() {
+      const overlay = document.getElementById("antiCheatOverlay");
+      if (overlay) overlay.classList.remove("show");
+    }
+
+    function checkManualClickSpeed() {
+      const now = performance.now();
+      if (lastManualClickTime > 0) {
+        const gap = now - lastManualClickTime;
+        // Treat clicks at roughly 0.09 seconds or faster as autoclicker-like.
+        if (gap <= 95) suspiciousClickStreak++;
+        else suspiciousClickStreak = 0;
+
+        if (suspiciousClickStreak >= 4) {
+          if (!antiCheatWarningIssued) {
+            antiCheatWarningIssued = true;
+            suspiciousClickStreak = 0;
+            const message = document.getElementById("eggMessage");
+            if (message) message.textContent = "⚠️ Nice autoclicker huh? Warning issued.";
+            showAntiCheatOverlay(false);
+            return false;
+          }
+          antiCheatPenalty();
+          suspiciousClickStreak = 0;
+          return false;
+        }
+      }
+      lastManualClickTime = now;
+      return true;
+    }
+
     function clickEgg(isAuto = false) {
       if (!isAuto && autoClickerOn) return;
+      if (antiCheatLocked) return;
+      if (!isAuto && !checkManualClickSpeed()) return;
       const rewardMultiplier = isAuto ? 0.25 : 1;
       coins += Math.max(1, Math.floor(power * multiplier * rewardMultiplier * petClickMultiplier()));
       clicks++;
+      if (!isAuto) playEggCrackSound();
       const egg = document.getElementById("eggButton");
       egg.style.transform = "scale(.86)"; setTimeout(() => egg.style.transform = "", 80);
       updateGame();
@@ -1504,23 +1773,30 @@ main { min-height: 100%; }
       upgradeBuyAmount = amount;
       [1,10,100].forEach(n => {
         const b = document.getElementById("buy" + n + "x");
-        if (b) b.classList.toggle("active", n === amount);
+        if (b) { b.classList.toggle("active", n === amount); b.innerHTML = n + "x"; }
       });
+      updateUpgradeBatchPrices();
     }
 
     function upgradeCost(index) {
-      const level = purchased[index] || 0;
-      return Math.floor(upgrades[index].cost * Math.pow(1.35, level));
+      // Upgrade prices stay fixed after purchase. Humanity has suffered enough from inflation.
+      return upgrades[index].cost;
     }
 
     function upgradeBatchCost(index, amount) {
-      const upgrade = upgrades[index];
-      const level = purchased[index] || 0;
-      let total = 0;
-      for (let i = 0; i < amount; i++) {
-        total += Math.floor(upgrade.cost * Math.pow(1.35, level + i));
-      }
-      return total;
+      // Buying 10x or 100x simply multiplies the fixed price.
+      return upgrades[index].cost * amount;
+    }
+
+    function updateUpgradeBatchPrices() {
+      document.querySelectorAll(".upgrade").forEach((button, index) => {
+        if (!upgrades[index]) return;
+        const price = upgradeBatchCost(index, upgradeBuyAmount);
+        const strong = button.querySelector("strong");
+        if (strong) strong.textContent = price.toLocaleString();
+        const small = button.querySelector("small");
+        if (small) small.dataset.baseText = small.dataset.baseText || small.textContent;
+      });
     }
 
     function buyUpgrade(index) {
@@ -1533,6 +1809,7 @@ main { min-height: 100%; }
       }
 
       coins -= totalCost;
+      playCashSound();
       purchased[index] = (purchased[index] || 0) + amount;
       power += upgrade.click * amount;
       autoIncome += upgrade.auto * amount;
@@ -1541,7 +1818,7 @@ main { min-height: 100%; }
       const button = document.querySelectorAll(".upgrade")[index];
       button.classList.remove("bought");
       button.disabled = false;
-      button.querySelector("strong").textContent = upgradeCost(index).toLocaleString();
+      button.querySelector("strong").textContent = upgradeBatchCost(index, upgradeBuyAmount).toLocaleString();
       const small = button.querySelector("small");
       small.textContent = (upgrade.click ? "+" + upgrade.click.toLocaleString() + " coins per click" : upgrade.auto ? "+" + upgrade.auto.toLocaleString() + " coins every second" : "x" + upgrade.multiplier + " coin multiplier") + " • Lv. " + purchased[index];
       document.getElementById("upgradeMessage").textContent = upgrade.name + " +" + amount + " levels! Now level " + purchased[index] + ".";
@@ -1566,7 +1843,10 @@ main { min-height: 100%; }
       const type = Math.random() < 0.5 ? "click" : "second";
       const multiplierBoost = 1.25 + Math.floor(Math.random()*4)*0.25;
       petMutation = {pet:index,type,multiplier:multiplierBoost};
-      document.getElementById("petMutationDisplay").textContent = pets[index].icon + " " + pets[index].name + " • +" + Math.round((multiplierBoost-1)*100) + "% " + (type === "click" ? "coins per click" : "coins per second");
+      const visualVariant = ["Golden","Silver","Rainbow","Diamond","Shadow","Neon"][Math.floor(Math.random()*6)];
+      petVariants[index] = visualVariant;
+      document.getElementById("petMutationDisplay").textContent = pets[index].icon + " " + visualVariant + " " + pets[index].name + " • +" + Math.round((multiplierBoost-1)*100) + "% " + (type === "click" ? "coins per click" : "coins per second");
+      renderPets();
       document.getElementById("hatchMessage").textContent = "🧬 " + pets[index].name + " mutated!";
       updateGame();
     }
@@ -1576,9 +1856,9 @@ main { min-height: 100%; }
       if (coins < cost) { document.getElementById("hatchMessage").textContent = "You need " + (cost-coins).toLocaleString() + " more coins for an egg mutation."; return; }
       coins -= cost;
       const index = Math.floor(Math.random()*eggTypes.length);
-      const types = ["Shiny","Lucky","Charged"];
+      const types = ["Shiny","Lucky","Charged","Golden","Rainbow","Void","Plasma"];
       const type = types[Math.floor(Math.random()*types.length)];
-      const bonus = type === "Shiny" ? 1.25 : type === "Lucky" ? 1.50 : 2.00;
+      const bonus = {Shiny:1.25,Lucky:1.50,Charged:2.00,Golden:2.50,Rainbow:3.00,Void:3.50,Plasma:4.00}[type];
       eggMutations[index] = {type,bonus};
       document.getElementById("eggMutationDisplay").textContent = eggTypes[index].icon + " " + eggTypes[index].name + " • " + type + " • +" + Math.round((bonus-1)*100) + "% pet bonus";
       document.getElementById("hatchMessage").textContent = "🧬 " + eggTypes[index].name + " became " + type + "!";
@@ -1593,8 +1873,14 @@ main { min-height: 100%; }
       const pet = pets[petIndex];
       const wasOwned = ownedPets[petIndex];
       const eggMutationBonus = eggMutations[index] ? eggMutations[index].bonus : 1;
-      if (!wasOwned) { ownedPets[petIndex] = true; multiplier *= (1 + (pet.bonus - 1) * eggMutationBonus); }
-      document.getElementById("hatchMessage").textContent = wasOwned ? "🥚 You hatched another " + pet.name + "!" : "🥚 You hatched " + pet.name + "! Multiplier: " + multiplier.toFixed(2) + "x.";
+      if (!wasOwned) {
+        ownedPets[petIndex] = true;
+        multiplier *= (1 + (pet.bonus - 1) * eggMutationBonus);
+        const roll = Math.random();
+        petVariants[petIndex] = roll < 0.03 ? "Rainbow" : roll < 0.07 ? "Golden" : roll < 0.12 ? "Silver" : roll < 0.15 ? "Diamond" : roll < 0.18 ? "Shadow" : roll < 0.23 ? "Neon" : null;
+      }
+      const variantText = petVariants[petIndex] ? " " + petVariants[petIndex] + " variant!" : "";
+      document.getElementById("hatchMessage").textContent = wasOwned ? "🥚 You hatched another " + pet.name + "!" : "🥚 You hatched " + pet.name + "!" + variantText + " Multiplier: " + multiplier.toFixed(2) + "x.";
       renderPets(); updateGame();
     }
 
@@ -1611,6 +1897,8 @@ main { min-height: 100%; }
 
     function updateGame() {
       document.getElementById("coinDisplay").textContent = coins.toLocaleString();
+      const shopCoins = document.getElementById("shopCoins");
+      if (shopCoins) shopCoins.textContent = coins.toLocaleString();
       document.getElementById("powerDisplay").textContent = power;
       document.getElementById("eggMessage").textContent = clicks.toLocaleString() + (clicks === 1 ? " click" : " clicks");
       document.getElementById("petCount").textContent = ownedPets.filter(Boolean).length + " / " + pets.length;
@@ -1620,7 +1908,7 @@ main { min-height: 100%; }
       document.getElementById("rebirthButton").disabled = coins < cost;
       updateClickEggUpgrade();
       document.getElementById("comboDisplay").textContent = clicks >= 100 ? "EGG MASTER!" : clicks >= 25 ? "KEEP GOING!" : "CLICK THE EGG!";
-      document.querySelectorAll(".upgrade").forEach((button, index) => { if (upgrades[index]) { button.querySelector("strong").textContent = upgradeCost(index).toLocaleString(); } });
+      document.querySelectorAll(".upgrade").forEach((button, index) => { if (upgrades[index]) { button.querySelector("strong").textContent = upgradeBatchCost(index, upgradeBuyAmount).toLocaleString(); } });
     }
 
     function startOnlineRoom() {
@@ -1666,6 +1954,7 @@ main { min-height: 100%; }
     purchased = Array(upgrades.length).fill(0);
     ownedPets = Array(pets.length).fill(false);
     renderPets(); renderEggs(); renderEggSkins(); updateEggSkinVisual();
+    updateAudioButton(); updateUpgradeBatchPrices();
 
     setInterval(() => {
       if (document.getElementById("eggGame").classList.contains("show") && autoIncome > 0) {
@@ -1702,6 +1991,48 @@ main { min-height: 100%; }
 .egg-skin button{width:100%;min-height:38px}.egg-skin.selected{border-color:#ff2bd6;box-shadow:0 0 18px rgba(255,43,214,.12)}
 @media(max-width:700px){.egg-skin-grid{grid-template-columns:repeat(2,1fr)}.egg-tabs{margin-left:10px;margin-right:10px}.egg-skins-panel{margin-left:10px;margin-right:10px;padding:18px}}
 </style>
+
+
+<style id="batch-price-and-extra-skins">
+.upgrade-price-note{font-size:11px;opacity:.65;margin-left:6px}
+.shop-level{white-space:nowrap}
+.egg-skin-grid{grid-template-columns:repeat(5,1fr)}
+.egg-skin-preview{width:86px;height:86px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:50px;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.95),rgba(255,255,255,.15) 28%,rgba(0,0,0,.35) 72%);border:2px solid rgba(255,255,255,.25);box-shadow:0 0 18px rgba(255,255,255,.18);transition:.25s;}
+.skin-preview-1,.egg-skin-active-1{box-shadow:0 0 25px #00ffff,inset 0 0 25px rgba(0,255,255,.3)!important;border-color:#00ffff!important}
+.skin-preview-2,.egg-skin-active-2{box-shadow:0 0 28px #ffd700,inset 0 0 25px rgba(255,215,0,.35)!important;border-color:#ffd700!important}
+.skin-preview-3,.egg-skin-active-3{background:radial-gradient(circle,#fff,#7b3cff 35%,#111 72%)!important;box-shadow:0 0 30px #7b3cff!important}
+.skin-preview-4,.egg-skin-active-4{background:radial-gradient(circle,#fff,#ff3b00 32%,#220 70%)!important;box-shadow:0 0 30px #ff3b00!important}
+.skin-preview-5,.egg-skin-active-5{background:radial-gradient(circle,#fff,#40eaff 35%,#064c7a 70%)!important;box-shadow:0 0 32px #40eaff!important}
+.skin-preview-6,.egg-skin-active-6{background:radial-gradient(circle,#8b4dff,#13001f 55%,#000)!important;box-shadow:0 0 32px #8b4dff!important}
+.skin-preview-7,.egg-skin-active-7{background:radial-gradient(circle,#d8ffff,#3b5966 40%,#111 72%)!important;box-shadow:0 0 30px #aefaff!important}
+.skin-preview-8,.egg-skin-active-8{background:linear-gradient(135deg,#ff3131,#ffe600,#32ff5a,#25dfff,#9c40ff)!important;box-shadow:0 0 35px rgba(255,255,255,.9)!important;animation:rainbowEgg 2s linear infinite}
+.skin-preview-9,.egg-skin-active-9{background:radial-gradient(circle,#fff,#b9ffff 35%,#6bdcff 55%,#fff 70%)!important;box-shadow:0 0 38px #8ff!important}
+.skin-preview-10,.egg-skin-active-10{background:radial-gradient(circle,#d8ff72,#59ff00 35%,#173b00 70%)!important;box-shadow:0 0 30px #59ff00!important}
+.skin-preview-11,.egg-skin-active-11{background:radial-gradient(circle,#fff,#00bfff 30%,#0051ff 65%,#021 75%)!important;box-shadow:0 0 34px #00bfff!important;animation:plasmaPulse .8s infinite alternate}
+.skin-preview-12,.egg-skin-active-12{background:radial-gradient(circle,#39204f,#08000d 55%,#000)!important;box-shadow:0 0 35px #9b00ff!important}
+.skin-preview-13,.egg-skin-active-13{background:radial-gradient(circle,#fff,#ffe900 30%,#ff5a00 60%,#7a0000 75%)!important;box-shadow:0 0 40px #ffb000!important;animation:sunPulse 1s infinite alternate}
+.skin-preview-14,.egg-skin-active-14{background:radial-gradient(circle,#fff,#baf6ff 30%,#168cff 65%,#05204a 75%)!important;box-shadow:0 0 34px #4ddcff!important}
+.skin-preview-15,.egg-skin-active-15{background:linear-gradient(135deg,#00ffff 0 20%,#092b45 20% 40%,#00ffff 40% 45%,#111 45% 65%,#00ffff 65%)!important;box-shadow:0 0 28px #00ffff!important}
+.skin-preview-16,.egg-skin-active-16{background:radial-gradient(circle,#fff,#ff6b00 30%,#e00000 65%,#310000 75%)!important;box-shadow:0 0 38px #ff3b00!important}
+.skin-preview-17,.egg-skin-active-17{background:linear-gradient(140deg,#00ff66,#00dfff,#9d5cff,#00ff66)!important;box-shadow:0 0 35px #00ffbb!important}
+.skin-preview-18,.egg-skin-active-18{background:linear-gradient(135deg,#ff3bff,#3bffff,#fff,#ff3bff)!important;box-shadow:0 0 42px #ff7dff!important;animation:rainbowEgg 1.5s linear infinite}
+.skin-preview-19,.egg-skin-active-19{background:radial-gradient(circle,#fff,#ff00d9 28%,#5500ff 55%,#001 75%)!important;box-shadow:0 0 45px #ff00e6!important;animation:nexusPulse .7s infinite alternate}
+@keyframes rainbowEgg{to{filter:hue-rotate(360deg)}}
+@keyframes plasmaPulse{to{transform:scale(1.06);box-shadow:0 0 50px #00bfff}}
+@keyframes sunPulse{to{transform:scale(1.06);box-shadow:0 0 55px #ffb000}}
+@keyframes nexusPulse{to{transform:scale(1.08);box-shadow:0 0 60px #ff00e6}}
+.egg-button.egg-skin-active-8,.egg-button.egg-skin-active-18,.egg-button.egg-skin-active-19,.big-click-egg.egg-skin-active-8,.big-click-egg.egg-skin-active-18,.big-click-egg.egg-skin-active-19{animation:rainbowEgg 2s linear infinite}
+@media(max-width:700px){.egg-skin-grid{grid-template-columns:repeat(2,1fr)}.upgrade-price-note{width:100%;margin-left:0}.shop-level{white-space:normal;text-align:right}}
+</style>
+<div class="anti-cheat-overlay" id="antiCheatOverlay" role="alertdialog" aria-modal="true" aria-labelledby="antiCheatTitle">
+  <div class="anti-cheat-card">
+    <button type="button" class="anti-cheat-close" onclick="closeAntiCheatOverlay()" aria-label="Close warning">×</button>
+    <h2 id="antiCheatTitle">⚠️ NICE AUTOCLICKER HUH?</h2>
+    <p id="antiCheatText">That clicking speed looks a little suspicious.</p>
+    <p class="warning-sub">WARNING ISSUED</p>
+    <p>Slow down. If you're caught doing it again, <b>75% of your coins, upgrades and pets will be removed.</b></p>
+  </div>
+</div>
 
 </body>
 </html>

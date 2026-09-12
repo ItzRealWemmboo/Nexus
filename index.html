@@ -798,6 +798,28 @@
   #eggSkinsPanel, .egg-skins-panel{width:100% !important; max-width:100% !important;}
   .egg-skin-card{width:100% !important; box-sizing:border-box;}
 }
+
+    /* Localized NEXUS weather events: effects stay around the egg */
+    .egg-arena{position:relative;overflow:hidden;isolation:isolate}
+    .weather-local{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;border-radius:inherit;display:none}
+    .weather-local .weather-layer{position:absolute;inset:-20%;pointer-events:none}
+    .weather-local.rain{display:block;background:linear-gradient(rgba(0,120,255,.08),rgba(0,0,0,0))}
+    .weather-local.rain .weather-layer{background-image:repeating-linear-gradient(105deg,transparent 0 18px,rgba(120,210,255,.55) 19px 21px,transparent 22px 38px);background-size:70px 70px;animation:weatherRain .45s linear infinite}
+    .weather-local.golden{display:block;background:radial-gradient(circle at 50% 45%,rgba(255,210,50,.10),transparent 55%)}
+    .weather-local.golden .weather-layer{background-image:radial-gradient(circle,rgba(255,220,70,.95) 0 2px,transparent 3px);background-size:65px 65px;animation:goldenFall 1.8s linear infinite;opacity:.85}
+    .weather-local.storm{display:block;background:rgba(70,0,120,.10)}
+    .weather-local.storm .weather-layer{background-image:repeating-linear-gradient(115deg,transparent 0 55px,rgba(190,120,255,.48) 56px 59px,transparent 60px 110px);animation:stormMove 1s linear infinite}
+    .weather-local.sun{display:block;background:radial-gradient(circle at 50% 35%,rgba(255,215,70,.32),transparent 45%);animation:sunPulse 1.8s ease-in-out infinite alternate}
+    .weather-local.void{display:block;background:radial-gradient(circle at 50% 50%,rgba(140,0,255,.30),transparent 50%),radial-gradient(circle at 30% 30%,rgba(0,255,255,.16),transparent 30%);animation:voidPulse 2s ease-in-out infinite alternate}
+    .weather-local.petshower{display:block;background:radial-gradient(circle at 50% 45%,rgba(255,60,210,.12),transparent 55%)}
+    .weather-local.petshower .weather-layer{background-image:radial-gradient(circle,rgba(255,80,220,.95) 0 3px,transparent 4px),radial-gradient(circle,rgba(0,255,255,.8) 0 2px,transparent 3px);background-size:75px 75px,110px 110px;animation:goldenFall 1.5s linear infinite}
+    #eggButton{position:relative;z-index:2}
+    .weather-event-panel{margin:14px 0;padding:12px 16px;border:1px solid rgba(0,255,255,.25);border-radius:10px;background:rgba(8,8,22,.78);display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;z-index:2}
+    .weather-event-panel.event-active{box-shadow:0 0 25px rgba(0,255,255,.16);border-color:rgba(0,255,255,.55)}
+    .weather-event-title{font-weight:900;letter-spacing:1px}.weather-event-sub{font-size:12px;color:#aaa;margin-top:3px}.weather-event-timer{font-weight:900;color:#00ffff;white-space:nowrap}
+    .weather-toast{position:fixed;top:88px;left:50%;transform:translateX(-50%);z-index:8;padding:12px 18px;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:rgba(8,8,20,.92);box-shadow:0 0 30px rgba(0,255,255,.2);text-align:center;display:none;min-width:250px}.weather-toast.show{display:block;animation:eventToast .35s ease-out}.weather-toast b{display:block;color:#00ffff}.weather-toast span{font-size:12px;color:#bbb}
+    @keyframes weatherRain{to{background-position:-70px 70px}} @keyframes goldenFall{to{background-position:35px 150px}} @keyframes stormMove{to{background-position:110px 0}} @keyframes sunPulse{to{opacity:.55}} @keyframes voidPulse{to{transform:scale(1.08);opacity:.8}} @keyframes eventToast{from{transform:translate(-50%,-20px);opacity:0}to{transform:translate(-50%,0);opacity:1}}
+    @media(max-width:700px){.weather-event-panel{padding:10px 12px}.weather-event-title{font-size:13px}.weather-event-sub{font-size:11px}.weather-event-timer{font-size:12px}.weather-toast{top:72px;min-width:220px}.weather-local{border-radius:12px}}
 </style>
   <script defer src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1229,6 +1251,11 @@ main { min-height: 100%; }
         <div class="share-buttons"><button type="button" class="secondary" onclick="copyShareLink()">SHARE ROOM LINK</button></div>
       </div>
 
+      <div class="weather-event-panel" id="weatherEventPanel">
+        <div><div class="weather-event-title" id="weatherEventTitle">🌤️ CLEAR SKIES</div><div class="weather-event-sub" id="weatherEventSub">Random events can appear while you play.</div></div>
+        <div class="weather-event-timer" id="weatherEventTimer">NEXT EVENT SOON</div>
+      </div>
+
       <div class="audio-control-panel">
         <button type="button" class="secondary audio-toggle" id="audioToggleButton" onclick="toggleAudio()" aria-pressed="false">🔊 AUDIO: ON</button>
         <span>Toggle egg cracks and upgrade sounds</span>
@@ -1246,6 +1273,7 @@ main { min-height: 100%; }
       </div>
 
       <div class="egg-arena">
+        <div class="weather-local" id="weatherOverlay" aria-hidden="true"><div class="weather-layer"></div></div>
         <div class="combo" id="comboDisplay">CLICK THE EGG!</div>
         <button type="button" class="egg-button" id="eggButton" onclick="clickEgg()" aria-label="Click the egg">
           🥚
@@ -1296,7 +1324,7 @@ main { min-height: 100%; }
             <strong id="cost1">25</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(2)">
-            <span>🖱️ Egg Mouse<small>+4 coins per click</small></span>
+            <span>🖱️ Egg Mouse<small>+10 coins per click</small></span>
             <strong id="cost2">60</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(3)">
@@ -1304,7 +1332,7 @@ main { min-height: 100%; }
             <strong id="cost3">100</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(4)">
-            <span>⚡ Turbo Clicker<small>+15 coins per click</small></span>
+            <span>⚡ Turbo Clicker<small>+50 coins per click</small></span>
             <strong id="cost4">250</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(5)">
@@ -1312,99 +1340,99 @@ main { min-height: 100%; }
             <strong id="cost5">450</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(6)">
-            <span>💎 Diamond Finger<small>+55 coins per click</small></span>
-            <strong id="cost6">1,000</strong>
+            <span>🟡 Golden Finger<small>+500 coins per click</small></span>
+            <strong id="cost6">1,200</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(7)">
             <span>🏭 Coin Factory<small>+100 coins every second</small></span>
             <strong id="cost7">1,800</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(8)">
-            <span>🌟 Cosmic Clicker<small>+250 coins per click</small></span>
-            <strong id="cost8">4,500</strong>
+            <span>🌟 Cosmic Clicker<small>+100k coins per click</small></span>
+            <strong id="cost8">6,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(9)">
             <span>🚀 Rocket Hatchery<small>+500 coins every second</small></span>
             <strong id="cost9">7,500</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(10)">
-            <span>🌌 Galaxy Tap<small>+1,200 coins per click</small></span>
+            <span>🌌 Galaxy Tap<small>+2m coins per click</small></span>
             <strong id="cost10">20,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(11)">
-            <span>🌌 Galaxy Generator<small>+2,500 coins every second</small></span>
+            <span>🌌 Galaxy Generator<small>+2.5k coins every second</small></span>
             <strong id="cost11">35,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(12)">
-            <span>👽 Alien Clicker<small>+6,000 coins per click</small></span>
+            <span>👽 Alien Clicker<small>+50m coins per click</small></span>
             <strong id="cost12">90,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(13)">
-            <span>⚛️ Alien Reactor<small>+12,500 coins every second</small></span>
+            <span>⚛️ Alien Reactor<small>+12.5k coins every second</small></span>
             <strong id="cost13">150,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(14)">
-            <span>☄️ Meteor Clicker<small>+30,000 coins per click</small></span>
+            <span>☄️ Meteor Clicker<small>+1.5b coins per click</small></span>
             <strong id="cost14">400,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(15)">
-            <span>🏭 Meteor Factory<small>+70,000 coins every second</small></span>
+            <span>🏭 Meteor Factory<small>+70k coins every second</small></span>
             <strong id="cost15">700,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(16)">
-            <span>🔮 Quantum Tap<small>+160,000 coins per click</small></span>
+            <span>🔮 Quantum Tap<small>+50b coins per click</small></span>
             <strong id="cost16">2,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(17)">
-            <span>⚛️ Quantum Generator<small>+400,000 coins every second</small></span>
+            <span>⚛️ Quantum Generator<small>+400k coins every second</small></span>
             <strong id="cost17">3,500,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(18)">
-            <span>🌍 Planet Clicker<small>+900,000 coins per click</small></span>
+            <span>🌍 Planet Clicker<small>+2t coins per click</small></span>
             <strong id="cost18">10,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(19)">
-            <span>🏭 Planet Factory<small>+2,500,000 coins every second</small></span>
+            <span>🏭 Planet Factory<small>+2.5m coins every second</small></span>
             <strong id="cost19">18,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(20)">
-            <span>🌠 Stellar Engine<small>+5,000,000 coins per click</small></span>
+            <span>🌠 Stellar Engine<small>+100t coins per click</small></span>
             <strong id="cost20">50,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(21)">
-            <span>⚙️ Stellar Generator<small>+14,000,000 coins every second</small></span>
+            <span>⚙️ Stellar Generator<small>+14m coins every second</small></span>
             <strong id="cost21">90,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(22)">
-            <span>🔮 Reality Core<small>+30,000,000 coins per click</small></span>
+            <span>🔮 Reality Core<small>+5q coins per click</small></span>
             <strong id="cost22">250,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(23)">
-            <span>⚛️ Reality Reactor<small>+90,000,000 coins every second</small></span>
+            <span>⚛️ Reality Reactor<small>+90m coins every second</small></span>
             <strong id="cost23">450,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(24)">
-            <span>💫 Infinity Core<small>+180,000,000 coins per click</small></span>
+            <span>💫 Infinity Core<small>+250q coins per click</small></span>
             <strong id="cost24">1,200,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(25)">
-            <span>♾️ Infinity Generator<small>+550,000,000 coins every second</small></span>
+            <span>♾️ Infinity Generator<small>+550m coins every second</small></span>
             <strong id="cost25">2,200,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(26)">
-            <span>🧿 Omniverse Eye<small>+1,100,000,000 coins per click</small></span>
+            <span>🧿 Omniverse Eye<small>+10000q coins per click</small></span>
             <strong id="cost26">6,000,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(27)">
-            <span>🏭 Omniverse Factory<small>+3,500,000,000 coins every second</small></span>
+            <span>🏭 Omniverse Factory<small>+3.5b coins every second</small></span>
             <strong id="cost27">11,000,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(28)">
-            <span>🚀 NEXUS Ascender<small>+7,000,000,000 coins per click</small></span>
+            <span>🚀 NEXUS Ascender<small>+1e+06q coins per click</small></span>
             <strong id="cost28">30,000,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(29)">
-            <span>♾️ NEXUS Generator<small>+22,000,000,000 coins every second</small></span>
+            <span>♾️ NEXUS Generator<small>+22b coins every second</small></span>
             <strong id="cost29">55,000,000,000</strong>
           </button>
         </div>
@@ -1604,6 +1632,21 @@ main { min-height: 100%; }
     let suspiciousClickStreak = 0;
     let lastManualClickTime = 0;
     let antiCheatLocked = false;
+    let activeWeatherEvent = null;
+    let weatherEventEndsAt = 0;
+    let nextWeatherEventAt = Date.now() + (45000 + Math.random()*60000);
+    let weatherEventTimer = null;
+    const WEATHER_EVENT_DURATION = 5 * 60 * 1000;
+
+    const weatherEvents = [
+      {id:'rain', name:'RAINSTORM', icon:'🌧️', desc:'Rain boosts all coin earnings by 1.5x.', bonus:1.5, weight:30},
+      {id:'golden', name:'GOLDEN RAIN', icon:'🌟', desc:'Golden drops give a 2x coin bonus.', bonus:2, weight:18},
+      {id:'storm', name:'LUCKY STORM', icon:'⚡', desc:'Every click has a chance to find a random pet.', bonus:1.25, petChance:.018, weight:16},
+      {id:'sun', name:'SOLAR SURGE', icon:'☀️', desc:'Your per-second income is boosted by 3x.', bonus:3, incomeOnly: true, weight:14},
+      {id:'void', name:'VOID ECLIPSE', icon:'🌑', desc:'Rare event! Earnings are boosted by 4x and pets are easier to find.', bonus:4, petChance:.035, weight:5},
+      {id:'petshower', name:'PET SHOWER', icon:'🐾', desc:'Rare pets rain from the sky. Click to collect them!', bonus:1.75, petChance:.05, weight:2}
+    ];
+
 
     const NEXUS_SAVE_KEY = "nexusEggClickerSaveV1";
     function saveProgress() {
@@ -2148,13 +2191,76 @@ main { min-height: 100%; }
       return true;
     }
 
+    function chooseWeatherEvent(){
+      const total=weatherEvents.reduce((sum,e)=>sum+e.weight,0); let roll=Math.random()*total;
+      for(const e of weatherEvents){roll-=e.weight;if(roll<=0)return e;} return weatherEvents[0];
+    }
+    function showWeatherToast(title,text){
+      const toast=document.getElementById('weatherToast'); if(!toast)return;
+      document.getElementById('weatherToastTitle').textContent=title; document.getElementById('weatherToastText').textContent=text;
+      toast.classList.remove('show'); void toast.offsetWidth; toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'),5000);
+    }
+    function setWeatherVisual(event){
+      const overlay=document.getElementById('weatherOverlay'); if(!overlay)return;
+      overlay.className='weather-local ' + (event ? event.id : '');
+      overlay.style.display=event ? 'block' : 'none';
+    }
+    function startWeatherEvent(){
+      activeWeatherEvent=chooseWeatherEvent(); weatherEventEndsAt=Date.now()+WEATHER_EVENT_DURATION;
+      setWeatherVisual(activeWeatherEvent);
+      showWeatherToast(activeWeatherEvent.icon+' '+activeWeatherEvent.name,activeWeatherEvent.desc+' Lasts 5 minutes.');
+      const panel=document.getElementById('weatherEventPanel'); if(panel)panel.classList.add('event-active');
+      updateWeatherUI();
+    }
+    function endWeatherEvent(){
+      if(activeWeatherEvent) showWeatherToast('🌤️ '+activeWeatherEvent.name+' ENDED','The event has passed. Another one will appear randomly.');
+      activeWeatherEvent=null; weatherEventEndsAt=0; nextWeatherEventAt=Date.now()+(45000+Math.random()*90000);
+      setWeatherVisual(null); const panel=document.getElementById('weatherEventPanel'); if(panel)panel.classList.remove('event-active'); updateWeatherUI();
+    }
+    function updateWeatherUI(){
+      const title=document.getElementById('weatherEventTitle'), sub=document.getElementById('weatherEventSub'), timer=document.getElementById('weatherEventTimer'); if(!title||!sub||!timer)return;
+      if(activeWeatherEvent){
+        const left=Math.max(0,weatherEventEndsAt-Date.now()); const mins=Math.floor(left/60000), secs=Math.floor((left%60000)/1000);
+        title.textContent=activeWeatherEvent.icon+' '+activeWeatherEvent.name; sub.textContent=activeWeatherEvent.desc; timer.textContent=`${mins}:${String(secs).padStart(2,'0')} LEFT`;
+      } else {
+        const left=Math.max(0,nextWeatherEventAt-Date.now()); const mins=Math.floor(left/60000), secs=Math.floor((left%60000)/1000);
+        title.textContent='🌤️ CLEAR SKIES'; sub.textContent='Random 5-minute weather events can appear around your egg.'; timer.textContent=`NEXT IN ${mins}:${String(secs).padStart(2,'0')}`;
+      }
+    }
+    function weatherMultiplier(isIncome=false){
+      if(!activeWeatherEvent)return 1;
+      if(activeWeatherEvent.incomeOnly && !isIncome)return 1;
+      return activeWeatherEvent.bonus || 1;
+    }
+    function tryWeatherPetDrop(){
+      if(!activeWeatherEvent || !activeWeatherEvent.petChance || Math.random()>activeWeatherEvent.petChance)return false;
+      const candidates=pets.map((p,i)=>i).filter(i=>!ownedPets[i]);
+      if(!candidates.length)return false;
+      const rarePool=candidates.filter(i=>pets[i].bonus>=1.75); const pool=rarePool.length?rarePool:candidates;
+      const idx=pool[Math.floor(Math.random()*pool.length)]; ownedPets[idx]=true;
+      if(Math.random()<0.2) petVariants[idx]=['Rainbow','Golden','Diamond','Shadow','Neon'][Math.floor(Math.random()*5)];
+      renderPets(); renderTradePanel();
+      const p=pets[idx]; showWeatherToast('🐾 PET FOUND!',`The ${activeWeatherEvent.name} gave you a ${p.name}!`);
+      return true;
+    }
+    function tickWeatherEvent(){
+      const now=Date.now();
+      if(activeWeatherEvent && now>=weatherEventEndsAt) endWeatherEvent();
+      else if(!activeWeatherEvent && now>=nextWeatherEventAt && document.getElementById('eggGame')?.classList.contains('show')) startWeatherEvent();
+      updateWeatherUI();
+    }
+    weatherEventTimer=setInterval(tickWeatherEvent,1000);
+
     function clickEgg(isAuto = false) {
       if (!isAuto && autoClickerOn) return;
       if (antiCheatLocked) return;
       if (!isAuto && !checkManualClickSpeed()) return;
       const rewardMultiplier = isAuto ? 0.25 : 1;
-      coins += Math.max(1, Math.floor(power * multiplier * rewardMultiplier * petClickMultiplier()));
+      const eventMultiplier = weatherMultiplier(false);
+      coins += Math.max(1, Math.floor(power * multiplier * rewardMultiplier * petClickMultiplier() * eventMultiplier));
       clicks++;
+      tryWeatherPetDrop();
       if (!isAuto) playEggCrackSound();
       const egg = document.getElementById("eggButton");
       egg.style.transform = "scale(.86)"; setTimeout(() => egg.style.transform = "", 80);
@@ -2185,37 +2291,49 @@ main { min-height: 100%; }
       }
     }
 
+
+    function formatCoins(value) {
+      const n = Number(value) || 0;
+      const abs = Math.abs(n);
+      if (abs >= 1e18) return (n/1e18).toFixed(abs>=1e21?0:2).replace(/\.00$/,'')+'e';
+      if (abs >= 1e15) return (n/1e15).toFixed(abs>=1e18?0:2).replace(/\.00$/,'')+'qd';
+      if (abs >= 1e12) return (n/1e12).toFixed(abs>=1e15?0:2).replace(/\.00$/,'')+'t';
+      if (abs >= 1e9) return (n/1e9).toFixed(abs>=1e12?0:2).replace(/\.00$/,'')+'b';
+      if (abs >= 1e6) return (n/1e6).toFixed(abs>=1e9?0:2).replace(/\.00$/,'')+'m';
+      if (abs >= 1e3) return (n/1e3).toFixed(abs>=1e6?0:2).replace(/\.00$/,'')+'k';
+      return Math.floor(n).toLocaleString();
+    }
     const upgrades = [
       { name:"Starter Tap", cost:10, click:1, auto:0, multiplier:1 },
       { name:"Starter Generator", cost:25, click:0, auto:1, multiplier:1 },
-      { name:"Egg Mouse", cost:60, click:4, auto:0, multiplier:1 },
-      { name:"Mini Hatchery", cost:100, click:0, auto:5, multiplier:1 },
-      { name:"Turbo Clicker", cost:250, click:15, auto:0, multiplier:1 },
-      { name:"Golden Chicken", cost:450, click:0, auto:25, multiplier:1 },
-      { name:"Diamond Finger", cost:1000, click:55, auto:0, multiplier:1 },
-      { name:"Coin Factory", cost:1800, click:0, auto:100, multiplier:1 },
-      { name:"Cosmic Clicker", cost:4500, click:250, auto:0, multiplier:1 },
-      { name:"Rocket Hatchery", cost:7500, click:0, auto:500, multiplier:1 },
-      { name:"Galaxy Tap", cost:20000, click:1200, auto:0, multiplier:1 },
-      { name:"Galaxy Generator", cost:35000, click:0, auto:2500, multiplier:1 },
-      { name:"Alien Clicker", cost:90000, click:6000, auto:0, multiplier:1 },
-      { name:"Alien Reactor", cost:150000, click:0, auto:12500, multiplier:1 },
-      { name:"Meteor Clicker", cost:400000, click:30000, auto:0, multiplier:1 },
-      { name:"Meteor Factory", cost:700000, click:0, auto:70000, multiplier:1 },
-      { name:"Quantum Tap", cost:2000000, click:160000, auto:0, multiplier:1 },
-      { name:"Quantum Generator", cost:3500000, click:0, auto:400000, multiplier:1 },
-      { name:"Planet Clicker", cost:10000000, click:900000, auto:0, multiplier:1 },
-      { name:"Planet Factory", cost:18000000, click:0, auto:2500000, multiplier:1 },
-      { name:"Stellar Engine", cost:50000000, click:5000000, auto:0, multiplier:1 },
-      { name:"Stellar Generator", cost:90000000, click:0, auto:14000000, multiplier:1 },
-      { name:"Reality Core", cost:250000000, click:30000000, auto:0, multiplier:1 },
-      { name:"Reality Reactor", cost:450000000, click:0, auto:90000000, multiplier:1 },
-      { name:"Infinity Core", cost:1200000000, click:180000000, auto:0, multiplier:1 },
-      { name:"Infinity Generator", cost:2200000000, click:0, auto:550000000, multiplier:1 },
-      { name:"Omniverse Eye", cost:6000000000, click:1100000000, auto:0, multiplier:1 },
-      { name:"Omniverse Factory", cost:11000000000, click:0, auto:3500000000, multiplier:1 },
-      { name:"NEXUS Ascender", cost:30000000000, click:7000000000, auto:0, multiplier:1 },
-      { name:"NEXUS Generator", cost:55000000000, click:0, auto:22000000000, multiplier:1 }
+      { name:"Egg Mouse", cost:60, click:10, auto:0, multiplier:1 },
+      { name:"Mini Hatchery", cost:110, click:0, auto:7, multiplier:1 },
+      { name:"Turbo Clicker", cost:250, click:50, auto:0, multiplier:1 },
+      { name:"Golden Chicken", cost:500, click:0, auto:35, multiplier:1 },
+      { name:"Golden Finger", cost:1200, click:500, auto:0, multiplier:1 },
+      { name:"Coin Factory", cost:2200, click:0, auto:150, multiplier:1 },
+      { name:"Cosmic Clicker", cost:6000, click:100000, auto:0, multiplier:1 },
+      { name:"Rocket Hatchery", cost:11000, click:0, auto:1000, multiplier:1 },
+      { name:"Galaxy Tap", cost:25000, click:2000000, auto:0, multiplier:1 },
+      { name:"Galaxy Generator", cost:45000, click:0, auto:5500, multiplier:1 },
+      { name:"Alien Clicker", cost:90000, click:50000000, auto:0, multiplier:1 },
+      { name:"Alien Reactor", cost:180000, click:0, auto:28000, multiplier:1 },
+      { name:"Meteor Clicker", cost:400000, click:1500000000, auto:0, multiplier:1 },
+      { name:"Meteor Factory", cost:850000, click:0, auto:150000, multiplier:1 },
+      { name:"Quantum Tap", cost:2000000, click:50000000000, auto:0, multiplier:1 },
+      { name:"Quantum Generator", cost:4500000, click:0, auto:1000000, multiplier:1 },
+      { name:"Planet Clicker", cost:9000000, click:2000000000000, auto:0, multiplier:1 },
+      { name:"Planet Factory", cost:24000000, click:0, auto:6500000, multiplier:1 },
+      { name:"Stellar Engine", cost:35000000, click:100000000000000, auto:0, multiplier:1 },
+      { name:"Stellar Generator", cost:100000000, click:0, auto:32000000, multiplier:1 },
+      { name:"Reality Core", cost:150000000, click:5000000000000000, auto:0, multiplier:1 },
+      { name:"Reality Reactor", cost:550000000, click:0, auto:190000000, multiplier:1 },
+      { name:"Infinity Core", cost:600000000, click:250000000000000000, auto:0, multiplier:1 },
+      { name:"Infinity Generator", cost:2500000000, click:0, auto:900000000, multiplier:1 },
+      { name:"Omniverse Eye", cost:2500000000, click:10000000000000000000, auto:0, multiplier:1 },
+      { name:"Omniverse Factory", cost:11000000000, click:0, auto:4500000000, multiplier:1 },
+      { name:"NEXUS Ascender", cost:10000000000, click:1000000000000000000000, auto:0, multiplier:1 },
+      { name:"NEXUS Generator", cost:50000000000, click:0, auto:22000000000, multiplier:1 }
     ];
 
     const pets = [
@@ -2257,14 +2375,13 @@ main { min-height: 100%; }
       updateUpgradeBatchPrices();
     }
 
+    // Upgrade prices stay FIXED. Buying more levels never makes the next copy more expensive.
     function upgradeCost(index) {
-      // Upgrade prices stay fixed after purchase. Humanity has suffered enough from inflation.
-      return upgrades[index].cost;
+      return upgrades[index]?.cost || 0;
     }
 
     function upgradeBatchCost(index, amount) {
-      // Buying 10x or 100x simply multiplies the fixed price.
-      return upgrades[index].cost * amount;
+      return (upgrades[index]?.cost || 0) * amount;
     }
 
     function updateUpgradeBatchPrices() {
@@ -2272,7 +2389,7 @@ main { min-height: 100%; }
         if (!upgrades[index]) return;
         const price = upgradeBatchCost(index, upgradeBuyAmount);
         const strong = button.querySelector("strong");
-        if (strong) strong.textContent = price.toLocaleString();
+        if (strong) strong.textContent = formatCoins(price);
         const small = button.querySelector("small");
         if (small) small.dataset.baseText = small.dataset.baseText || small.textContent;
       });
@@ -2283,7 +2400,7 @@ main { min-height: 100%; }
       const amount = upgradeBuyAmount;
       const totalCost = upgradeBatchCost(index, amount);
       if (coins < totalCost) {
-        document.getElementById("upgradeMessage").textContent = "You need " + (totalCost - coins).toLocaleString() + " more coins to buy " + amount + "x " + upgrade.name + ".";
+        document.getElementById("upgradeMessage").textContent = "You need " + formatCoins(totalCost - coins) + " more coins to buy " + amount + "x " + upgrade.name + ".";
         return;
       }
 
@@ -2297,9 +2414,9 @@ main { min-height: 100%; }
       const button = document.querySelectorAll(".upgrade")[index];
       button.classList.remove("bought");
       button.disabled = false;
-      button.querySelector("strong").textContent = upgradeBatchCost(index, upgradeBuyAmount).toLocaleString();
+      button.querySelector("strong").textContent = formatCoins(upgradeBatchCost(index, upgradeBuyAmount));
       const small = button.querySelector("small");
-      small.textContent = (upgrade.click ? "+" + upgrade.click.toLocaleString() + " coins per click" : upgrade.auto ? "+" + upgrade.auto.toLocaleString() + " coins every second" : "x" + upgrade.multiplier + " coin multiplier") + " • Lv. " + purchased[index];
+      small.textContent = (upgrade.click ? "+" + formatCoins(upgrade.click) + " coins per click" : upgrade.auto ? "+" + formatCoins(upgrade.auto) + " coins every second" : "x" + upgrade.multiplier + " coin multiplier") + " • Lv. " + purchased[index];
       document.getElementById("upgradeMessage").textContent = upgrade.name + " +" + amount + " levels! Now level " + purchased[index] + ".";
       document.getElementById("shopLevel").textContent = purchased.reduce((a,b)=>a+b,0) + 1;
       updateGame();
@@ -2387,7 +2504,8 @@ main { min-height: 100%; }
       document.getElementById("rebirthButton").disabled = coins < cost;
       updateClickEggUpgrade();
       document.getElementById("comboDisplay").textContent = clicks >= 100 ? "EGG MASTER!" : clicks >= 25 ? "KEEP GOING!" : "CLICK THE EGG!";
-      document.querySelectorAll(".upgrade").forEach((button, index) => { if (upgrades[index]) { button.querySelector("strong").textContent = upgradeBatchCost(index, upgradeBuyAmount).toLocaleString(); } });
+      document.querySelectorAll(".upgrade").forEach((button, index) => { if (upgrades[index]) { button.querySelector("strong").textContent = formatCoins(upgradeBatchCost(index, upgradeBuyAmount)); } });
+      updateWeatherUI();
       saveProgress();
     }
 
@@ -2485,7 +2603,7 @@ main { min-height: 100%; }
 
     setInterval(() => {
       if (document.getElementById("eggGame").classList.contains("show") && autoIncome > 0) {
-        coins += Math.floor(autoIncome * multiplier * petSecondMultiplier());
+        coins += Math.floor(autoIncome * multiplier * petSecondMultiplier() * weatherMultiplier(true));
         updateGame();
       }
     }, 1000);
@@ -2579,5 +2697,7 @@ button, #eggButton, #bigClickEgg, .egg-button, .click-egg {
   </div>
 </div>
 
+
+<div id="weatherToast" class="weather-toast"><b id="weatherToastTitle">🌦️ WEATHER EVENT</b><span id="weatherToastText"></span></div>
 </body>
 </html>

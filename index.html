@@ -787,7 +787,13 @@
     .online-status { color:#777; font-size:12px; }
     .online-players { color:#ff2bd6; font-size:12px; }
 
-  </style>
+  
+@media (max-width: 600px){
+  #eggSkinsGrid{grid-template-columns:1fr !important; width:100% !important;}
+  #eggSkinsPanel, .egg-skins-panel{width:100% !important; max-width:100% !important;}
+  .egg-skin-card{width:100% !important; box-sizing:border-box;}
+}
+</style>
   <script defer src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
 
 

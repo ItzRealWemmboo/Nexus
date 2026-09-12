@@ -950,6 +950,21 @@ main { min-height: 100%; }
   @keyframes chargedPulse { from{transform:scale(1)} to{transform:scale(1.12) rotate(3deg)} }
   @keyframes plasmaPulse { from{transform:scale(1)} to{transform:scale(1.1) rotate(-3deg)} }
 </style>
+
+<style id="skins-one-wide-final">
+@media (max-width:700px){
+  #eggSkinGrid, .egg-skin-grid {
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    grid-auto-columns:100% !important;
+    width:100% !important;
+  }
+  #eggSkinGrid .egg-skin, .egg-skin-grid .egg-skin {
+    width:100% !important;
+    box-sizing:border-box !important;
+  }
+}
+</style>
 </head>
 
 <body>
@@ -2032,7 +2047,7 @@ main { min-height: 100%; }
 .egg-skin-preview{font-size:58px;line-height:1;filter:drop-shadow(0 0 15px rgba(0,255,255,.3))}
 .egg-skin strong{font-size:13px}.egg-skin small{color:#777;text-align:center}
 .egg-skin button{width:100%;min-height:38px}.egg-skin.selected{border-color:#ff2bd6;box-shadow:0 0 18px rgba(255,43,214,.12)}
-@media(max-width:700px){.egg-skin-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.egg-skin{min-height:125px;padding:8px 6px;gap:5px}.egg-skin-preview{font-size:42px}.egg-skin strong{font-size:11px}.egg-skin small{font-size:9px}.egg-skin button{min-height:32px;font-size:10px;padding:5px 3px}.egg-tabs{margin-left:10px;margin-right:10px}.egg-skins-panel{margin-left:10px;margin-right:10px;padding:12px}}
+@media(max-width:700px){.egg-skin-grid{grid-template-columns:1fr;gap:10px}.egg-skin{min-height:125px;padding:8px 6px;gap:5px}.egg-skin-preview{font-size:42px}.egg-skin strong{font-size:11px}.egg-skin small{font-size:9px}.egg-skin button{min-height:32px;font-size:10px;padding:5px 3px}.egg-tabs{margin-left:10px;margin-right:10px}.egg-skins-panel{margin-left:10px;margin-right:10px;padding:12px}}
 </style>
 
 

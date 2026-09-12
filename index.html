@@ -73,10 +73,15 @@
     }
 
     .login {
+      display: inline-block;
+      text-decoration: none;
       border: 1px solid #00ffff;
       padding: 10px 20px;
       border-radius: 5px;
       color: #00ffff !important;
+      background: transparent;
+      font: inherit;
+      cursor: pointer;
     }
 
     .hero {
@@ -795,6 +800,7 @@
 }
 </style>
   <script defer src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
 <style id="autoclicker-styles">
@@ -823,6 +829,12 @@
 .auto-clicker-button.active { border-color:#00ffff; box-shadow:0 0 18px rgba(0,255,255,.25); }
 .auto-clicker-status { color:#777; font-size:11px; margin-top:4px; }
 #eggButton:disabled { opacity:.55; cursor:not-allowed; filter:saturate(.7); }
+</style>
+
+<style id="cloud-save-styles">
+.cloud-save-panel{max-width:1000px;margin:18px auto 0;padding:16px 20px;background:#0e0e1b;border:1px solid #222;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;border-radius:12px}
+.cloud-save-info{color:#aaa;font-size:12px;flex:1;min-width:220px}.cloud-save-info strong{color:#7dff7d;display:block;font-size:14px;margin-bottom:4px}.cloud-save-status{color:#777;font-size:11px;margin-top:5px}.cloud-account-form{display:flex;gap:8px;flex-wrap:wrap;align-items:center;min-width:280px}.cloud-account-form input{background:#090910;border:1px solid #29293a;color:#fff;border-radius:8px;padding:10px 11px;font:inherit;font-size:12px;min-width:180px;outline:none}.cloud-account-form input:focus{border-color:#00ffff;box-shadow:0 0 12px rgba(0,255,255,.12)}.cloud-account-actions{display:flex;gap:8px;flex-wrap:wrap}.cloud-account-actions button{min-width:115px}.cloud-save-actions{display:flex;gap:8px;flex-wrap:wrap}.cloud-save-actions button{min-width:145px}.cloud-save-user{color:#00ffff;font-weight:800}
+@media(max-width:600px){.cloud-save-panel{margin-left:10px;margin-right:10px;padding:14px}.cloud-account-form{width:100%;min-width:0}.cloud-account-form input{width:100%;min-width:0;box-sizing:border-box}.cloud-account-actions{width:100%}.cloud-account-actions button{flex:1;min-width:0}.cloud-save-actions{width:100%}.cloud-save-actions button{flex:1;min-width:0}}
 </style>
 
 <style id="anti-cheat-overlay-styles">
@@ -965,6 +977,38 @@ main { min-height: 100%; }
   }
 }
 </style>
+
+  <style id="password-view-fix">
+    .password-field-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+    }
+    .password-field-wrap #cloudPassword {
+      flex: 1;
+      min-width: 0;
+    }
+    .password-view-btn {
+      flex: 0 0 auto;
+      min-height: 42px;
+      padding: 0 13px;
+      border: 1px solid #00ffff;
+      border-radius: 8px;
+      background: rgba(0,255,255,.08);
+      color: #00ffff;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .password-view-btn:hover {
+      background: rgba(0,255,255,.18);
+      box-shadow: 0 0 12px rgba(0,255,255,.25);
+    }
+    @media (max-width: 700px) {
+      .password-field-wrap { flex-direction: column; align-items: stretch; }
+      .password-view-btn { width: 100%; }
+    }
+  </style>
 </head>
 
 <body>
@@ -976,7 +1020,7 @@ main { min-height: 100%; }
       <li><a href="#games">Games</a></li>
       <li><a href="#rankings">Rankings</a></li>
       <li><a href="#">Community</a></li>
-      <li><a href="#" class="login">Login</a></li>
+      <li><a class="login" id="navLoginLink" href="#cloud-save" onclick="openCloudLogin(event)">Login</a></li>
     </ul>
   </nav>
 
@@ -1067,7 +1111,30 @@ main { min-height: 100%; }
     </div>
 
     <!-- Playable Egg Clicker -->
-    <div id="eggGame" class="game-screen">
+    
+    <div class="cloud-save-panel" id="cloud-save">
+        <div class="cloud-save-info">
+          <strong>💾 NEXUS LOCAL ACCOUNT</strong>
+          Create a NEXUS username and password to save your progress on this device.
+          <div class="cloud-save-status" id="cloudSaveStatus">Not signed in • Local save still active</div>
+        </div>
+        <div class="cloud-account-form">
+          <input type="text" id="cloudUsername" autocomplete="username" placeholder="NEXUS username" aria-label="NEXUS username" maxlength="24">
+          <div class="password-field-wrap">
+            <input type="password" id="cloudPassword" autocomplete="current-password" placeholder="Password (6+ characters)" aria-label="Password">
+            <button type="button" class="password-view-btn" id="passwordViewButton" onclick="toggleCloudPassword()" aria-label="Show password" aria-pressed="false">👁️ SHOW</button>
+          </div>
+          <div class="cloud-account-actions">
+            <button type="button" class="secondary" id="cloudSignUpButton" onclick="createCloudAccount()">👤 CREATE ACCOUNT</button>
+            <button type="button" class="secondary" id="cloudSignInButton" onclick="signInWithEmail()">🔐 LOG IN</button>
+            <button type="button" class="secondary" id="cloudSignOutButton" onclick="signOutCloud()" style="display:none">LOG OUT</button>
+          </div>
+        </div>
+        <div class="cloud-save-actions">
+          <button type="button" class="secondary" id="cloudSaveButton" onclick="saveCloudProgress()">☁️ SAVE NOW</button>
+          <button type="button" class="secondary" id="cloudLoadButton" onclick="loadCloudProgress()">↻ LOAD CLOUD</button>
+        </div>
+      </div><div id="eggGame" class="game-screen">
       <div class="game-top">
         <div>
           <div class="tag">LIVE LOBBY</div>
@@ -1093,6 +1160,8 @@ main { min-height: 100%; }
         <button type="button" class="secondary audio-toggle" id="audioToggleButton" onclick="toggleAudio()" aria-pressed="false">🔊 AUDIO: ON</button>
         <span>Toggle egg cracks and upgrade sounds</span>
       </div>
+
+      
 
       <div class="auto-clicker-panel">
         <div class="auto-clicker-info">
@@ -1433,6 +1502,189 @@ main { min-height: 100%; }
         return true;
       } catch (e) { return false; }
     }
+
+    // NEXUS Local Accounts. No email, no email verification, no email rate limits.
+    const NEXUS_ACCOUNTS_KEY = "nexusLocalAccountsV1";
+    const NEXUS_CURRENT_USER_KEY = "nexusLocalCurrentUserV1";
+    let localAccountUsername = localStorage.getItem(NEXUS_CURRENT_USER_KEY) || "";
+
+    function getLocalAccounts() {
+      try { return JSON.parse(localStorage.getItem(NEXUS_ACCOUNTS_KEY) || "{}"); }
+      catch (e) { return {}; }
+    }
+
+    async function hashLocalPassword(password, username) {
+      const text = username.toLowerCase() + ":nexus-local-salt:" + password;
+      if (window.crypto?.subtle) {
+        const bytes = new TextEncoder().encode(text);
+        const digest = await crypto.subtle.digest("SHA-256", bytes);
+        return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2,"0")).join("");
+      }
+      let h = 2166136261;
+      for (let i=0;i<text.length;i++) h = Math.imul(h ^ text.charCodeAt(i), 16777619);
+      return (h >>> 0).toString(16);
+    }
+
+    function localSaveKey(username) {
+      return "nexusLocalSaveV1_" + username.toLowerCase();
+    }
+
+    function setLocalStatus(text, good=false) {
+      const el = document.getElementById('cloudSaveStatus');
+      if (!el) return;
+      el.innerHTML = good ? '<span class="cloud-save-user">'+text+'</span>' : text;
+    }
+
+    function toggleCloudPassword() {
+      const input = document.getElementById('cloudPassword');
+      const button = document.getElementById('passwordViewButton');
+      if (!input || !button) return;
+      const showing = input.type === 'text';
+      input.type = showing ? 'password' : 'text';
+      button.textContent = showing ? '👁️ SHOW' : '🙈 HIDE';
+      button.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+      button.setAttribute('aria-pressed', String(!showing));
+    }
+
+    function localUsernameAndPassword() {
+      const username = (document.getElementById('cloudUsername')?.value || '').trim();
+      const password = document.getElementById('cloudPassword')?.value || '';
+      if (!/^[A-Za-z0-9_]{3,24}$/.test(username)) {
+        setLocalStatus('Username must be 3-24 characters using letters, numbers, or _.');
+        return null;
+      }
+      if (password.length < 6) { setLocalStatus('Password must be at least 6 characters.'); return null; }
+      return { username, password };
+    }
+
+    function openCloudLogin(event) {
+      if (event) { event.preventDefault(); event.stopPropagation(); }
+      const panel = document.getElementById('cloud-save');
+      if (!panel) return;
+      panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => document.getElementById('cloudUsername')?.focus({preventScroll:true}), 450);
+    }
+
+    function saveLocalAccountProgress() {
+      if (!localAccountUsername) return false;
+      try {
+        localStorage.setItem(localSaveKey(localAccountUsername), JSON.stringify({
+          playerName, gameCode, coins, clicks, power, autoIncome, multiplier, rebirths,
+          purchased, ownedPets, clickEggLevel, petMutation, eggMutations, petVariants,
+          selectedEggSkin, ownedEggSkins, antiCheatWarningIssued
+        }));
+        return true;
+      } catch (e) { return false; }
+    }
+
+    function loadLocalAccountProgress(username) {
+      try {
+        const raw = localStorage.getItem(localSaveKey(username));
+        if (!raw) return false;
+        const d = JSON.parse(raw);
+        playerName = d.playerName || username; gameCode = d.gameCode || gameCode;
+        coins = Number(d.coins) || 0; clicks = Number(d.clicks) || 0; power = Number(d.power) || 1;
+        autoIncome = Number(d.autoIncome) || 0; multiplier = Number(d.multiplier) || 1; rebirths = Number(d.rebirths) || 0;
+        purchased = Array.isArray(d.purchased) ? d.purchased : Array(upgrades.length).fill(0);
+        ownedPets = Array.isArray(d.ownedPets) ? d.ownedPets : Array(pets.length).fill(false);
+        clickEggLevel = Number(d.clickEggLevel) || 0; petMutation = d.petMutation || null;
+        eggMutations = Array.isArray(d.eggMutations) ? d.eggMutations : [];
+        petVariants = Array.isArray(d.petVariants) ? d.petVariants : Array(pets.length).fill(null);
+        selectedEggSkin = Number.isInteger(d.selectedEggSkin) ? d.selectedEggSkin : 0;
+        ownedEggSkins = Array.isArray(d.ownedEggSkins) ? d.ownedEggSkins : ownedEggSkins;
+        antiCheatWarningIssued = !!d.antiCheatWarningIssued;
+        renderEggSkins(); renderPets(); updateEggSkinVisual(); updateGame();
+        return true;
+      } catch (e) { return false; }
+    }
+
+    async function createCloudAccount() {
+      const credentials = localUsernameAndPassword();
+      if (!credentials) return;
+      const accounts = getLocalAccounts();
+      const key = credentials.username.toLowerCase();
+      if (accounts[key]) { setLocalStatus('That username already exists. Use LOG IN instead.'); return; }
+      setLocalStatus('Creating your NEXUS account...');
+      accounts[key] = { username: credentials.username, passwordHash: await hashLocalPassword(credentials.password, credentials.username), createdAt: Date.now() };
+      localStorage.setItem(NEXUS_ACCOUNTS_KEY, JSON.stringify(accounts));
+      localAccountUsername = credentials.username;
+      localStorage.setItem(NEXUS_CURRENT_USER_KEY, localAccountUsername);
+      playerName = credentials.username;
+      saveLocalAccountProgress();
+      updateCloudAuthUI();
+      setLocalStatus('Account created • Local save is active', true);
+    }
+
+    async function signInWithEmail() {
+      const credentials = localUsernameAndPassword();
+      if (!credentials) return;
+      const accounts = getLocalAccounts();
+      const account = accounts[credentials.username.toLowerCase()];
+      if (!account) { setLocalStatus('Username not found. Create an account first.'); return; }
+      setLocalStatus('Logging in...');
+      const hash = await hashLocalPassword(credentials.password, account.username);
+      if (hash !== account.passwordHash) { setLocalStatus('Incorrect password.'); return; }
+      localAccountUsername = account.username;
+      localStorage.setItem(NEXUS_CURRENT_USER_KEY, localAccountUsername);
+      if (!loadLocalAccountProgress(localAccountUsername)) playerName = localAccountUsername;
+      updateCloudAuthUI();
+      setLocalStatus('Logged in as '+localAccountUsername+' • Local save active', true);
+    }
+
+    function signOutCloud() {
+      saveLocalAccountProgress();
+      localAccountUsername = "";
+      localStorage.removeItem(NEXUS_CURRENT_USER_KEY);
+      updateCloudAuthUI();
+      setLocalStatus('Logged out • Local save still active');
+    }
+
+    function updateCloudAuthUI() {
+      const signedIn = !!localAccountUsername;
+      const signUp = document.getElementById('cloudSignUpButton');
+      const signIn = document.getElementById('cloudSignInButton');
+      const signOut = document.getElementById('cloudSignOutButton');
+      const save = document.getElementById('cloudSaveButton');
+      const load = document.getElementById('cloudLoadButton');
+      if (signUp) signUp.style.display = signedIn ? 'none' : '';
+      if (signIn) signIn.style.display = signedIn ? 'none' : '';
+      if (signOut) signOut.style.display = signedIn ? '' : 'none';
+      if (save) save.disabled = !signedIn;
+      if (load) load.disabled = !signedIn;
+      if (signedIn) setLocalStatus('Logged in as '+localAccountUsername+' • Local save active', true);
+    }
+
+    async function saveCloudProgress(showStatus=true) {
+      if (!localAccountUsername) { if(showStatus) setLocalStatus('Log in first to save this account.'); return false; }
+      const ok = saveLocalAccountProgress();
+      if (showStatus) setLocalStatus(ok ? 'Progress saved on this device • '+localAccountUsername : 'Could not save. Your current game is still running.', ok);
+      return ok;
+    }
+
+    async function loadCloudProgress() {
+      if (!localAccountUsername) { setLocalStatus('Log in first to load your account.'); return; }
+      if (loadLocalAccountProgress(localAccountUsername)) setLocalStatus('Progress loaded • '+localAccountUsername, true);
+      else setLocalStatus('No saved progress for this account yet.');
+    }
+
+    function scheduleCloudSave() {
+      if (!localAccountUsername) return;
+      clearTimeout(cloudSaveTimer);
+      cloudSaveTimer = setTimeout(() => saveLocalAccountProgress(), 1200);
+    }
+
+    let cloudSaveTimer = null;
+    updateCloudAuthUI();
+    if (localAccountUsername) {
+      loadLocalAccountProgress(localAccountUsername);
+      updateCloudAuthUI();
+    }
+
+    const originalSaveProgress = saveProgress;
+    saveProgress = function() {
+      originalSaveProgress();
+      scheduleCloudSave();
+    };
 
     const eggSkins = [
       {name:"Classic", icon:"🥚", cost:0, desc:"The original egg."},
@@ -2040,7 +2292,9 @@ main { min-height: 100%; }
     function broadcastNames() { connections.forEach(c => { if (c.open) c.send({type:"names", names:onlineNames}); }); }
     function updateOnlineCount() { document.getElementById("onlineCount").textContent = Math.max(1, onlineNames.length); }
 
-    loadProgress();
+    // Load the signed-in local account first. Only fall back to the legacy global save when no account is signed in.
+    const hasLocalAccountSave = !!localAccountUsername && loadLocalAccountProgress(localAccountUsername);
+    if (!hasLocalAccountSave) loadProgress();
     if (!Array.isArray(purchased) || !purchased.length) purchased = Array(upgrades.length).fill(0);
     if (!Array.isArray(ownedPets) || !ownedPets.length) ownedPets = Array(pets.length).fill(false);
     renderPets(); renderEggs(); renderEggSkins(); updateEggSkinVisual();
@@ -2065,7 +2319,13 @@ main { min-height: 100%; }
 <script id="mobile-controls">
     // Let the browser handle native scrolling and button taps.
     // Inline button handlers provide the actual game actions.
-  </script>
+  
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.location.hash === '#cloud-save') {
+        setTimeout(() => openCloudLogin(), 50);
+      }
+    });
+</script>
 
 <style id="egg-skins">
 .egg-tabs{max-width:1000px;margin:25px auto 0;display:flex;gap:8px;border-bottom:1px solid #252538}

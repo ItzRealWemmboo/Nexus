@@ -1350,6 +1350,37 @@ main { min-height: 100%; }
     let lastManualClickTime = 0;
     let antiCheatLocked = false;
 
+    const NEXUS_SAVE_KEY = "nexusEggClickerSaveV1";
+    function saveProgress() {
+      try {
+        localStorage.setItem(NEXUS_SAVE_KEY, JSON.stringify({
+          playerName, gameCode, coins, clicks, power, autoIncome, multiplier, rebirths,
+          purchased, ownedPets, clickEggLevel, petMutation, eggMutations, petVariants,
+          selectedEggSkin, ownedEggSkins, antiCheatWarningIssued
+        }));
+      } catch (e) {}
+    }
+    function loadProgress() {
+      try {
+        const raw = localStorage.getItem(NEXUS_SAVE_KEY);
+        if (!raw) return false;
+        const d = JSON.parse(raw);
+        playerName = d.playerName || ""; gameCode = d.gameCode || "";
+        coins = Number(d.coins) || 0; clicks = Number(d.clicks) || 0;
+        power = Number(d.power) || 1; autoIncome = Number(d.autoIncome) || 0;
+        multiplier = Number(d.multiplier) || 1; rebirths = Number(d.rebirths) || 0;
+        purchased = Array.isArray(d.purchased) ? d.purchased : Array(upgrades.length).fill(0);
+        ownedPets = Array.isArray(d.ownedPets) ? d.ownedPets : Array(pets.length).fill(false);
+        clickEggLevel = Number(d.clickEggLevel) || 0;
+        petMutation = d.petMutation || null; eggMutations = Array.isArray(d.eggMutations) ? d.eggMutations : [];
+        petVariants = Array.isArray(d.petVariants) ? d.petVariants : Array(pets.length).fill(null);
+        selectedEggSkin = Number.isInteger(d.selectedEggSkin) ? d.selectedEggSkin : 0;
+        ownedEggSkins = Array.isArray(d.ownedEggSkins) ? d.ownedEggSkins : ownedEggSkins;
+        antiCheatWarningIssued = !!d.antiCheatWarningIssued;
+        return true;
+      } catch (e) { return false; }
+    }
+
     const eggSkins = [
       {name:"Classic", icon:"🥚", cost:0, desc:"The original egg."},
       {name:"Neon", icon:"💠", cost:5000, desc:"Bright cyber glow."},
@@ -1482,12 +1513,16 @@ main { min-height: 100%; }
       const code = document.getElementById("gameCode").value.trim().toUpperCase();
       if (!name) { document.getElementById("joinError").textContent = "Enter a player name first."; return; }
       if (!code) { document.getElementById("joinError").textContent = "Enter a game code."; return; }
-      playerName = name; gameCode = code;
-      if (autoClickerOn) toggleAutoClicker();
-      coins = 0; clicks = 0; power = 1; clickEggLevel = 0; autoIncome = 0; multiplier = 1 + rebirths; petMutation = null; eggMutations = [];
-      resetUpgrades();
-      ownedPets = Array(pets.length).fill(false);
-      petVariants = Array(pets.length).fill(null);
+      const saved = loadProgress();
+      const samePlayer = saved && playerName.toLowerCase() === name.toLowerCase();
+      if (!samePlayer) {
+        playerName = name; gameCode = code;
+        if (autoClickerOn) toggleAutoClicker();
+        coins = 0; clicks = 0; power = 1; clickEggLevel = 0; autoIncome = 0; multiplier = 1; rebirths = 0; petMutation = null; eggMutations = [];
+        resetUpgrades(); ownedPets = Array(pets.length).fill(false); petVariants = Array(pets.length).fill(null);
+      } else {
+        gameCode = code || gameCode;
+      }
       renderPets(); renderEggs();
       document.getElementById("playerDisplay").textContent = playerName;
       document.getElementById("codeDisplay").textContent = gameCode;
@@ -1909,6 +1944,7 @@ main { min-height: 100%; }
       updateClickEggUpgrade();
       document.getElementById("comboDisplay").textContent = clicks >= 100 ? "EGG MASTER!" : clicks >= 25 ? "KEEP GOING!" : "CLICK THE EGG!";
       document.querySelectorAll(".upgrade").forEach((button, index) => { if (upgrades[index]) { button.querySelector("strong").textContent = upgradeBatchCost(index, upgradeBuyAmount).toLocaleString(); } });
+      saveProgress();
     }
 
     function startOnlineRoom() {
@@ -1951,10 +1987,11 @@ main { min-height: 100%; }
     function broadcastNames() { connections.forEach(c => { if (c.open) c.send({type:"names", names:onlineNames}); }); }
     function updateOnlineCount() { document.getElementById("onlineCount").textContent = Math.max(1, onlineNames.length); }
 
-    purchased = Array(upgrades.length).fill(0);
-    ownedPets = Array(pets.length).fill(false);
+    loadProgress();
+    if (!Array.isArray(purchased) || !purchased.length) purchased = Array(upgrades.length).fill(0);
+    if (!Array.isArray(ownedPets) || !ownedPets.length) ownedPets = Array(pets.length).fill(false);
     renderPets(); renderEggs(); renderEggSkins(); updateEggSkinVisual();
-    updateAudioButton(); updateUpgradeBatchPrices();
+    updateAudioButton(); updateUpgradeBatchPrices(); updateGame();
 
     setInterval(() => {
       if (document.getElementById("eggGame").classList.contains("show") && autoIncome > 0) {
@@ -1989,7 +2026,7 @@ main { min-height: 100%; }
 .egg-skin-preview{font-size:58px;line-height:1;filter:drop-shadow(0 0 15px rgba(0,255,255,.3))}
 .egg-skin strong{font-size:13px}.egg-skin small{color:#777;text-align:center}
 .egg-skin button{width:100%;min-height:38px}.egg-skin.selected{border-color:#ff2bd6;box-shadow:0 0 18px rgba(255,43,214,.12)}
-@media(max-width:700px){.egg-skin-grid{grid-template-columns:repeat(2,1fr)}.egg-tabs{margin-left:10px;margin-right:10px}.egg-skins-panel{margin-left:10px;margin-right:10px;padding:18px}}
+@media(max-width:700px){.egg-skin-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.egg-skin{min-height:125px;padding:8px 6px;gap:5px}.egg-skin-preview{font-size:42px}.egg-skin strong{font-size:11px}.egg-skin small{font-size:9px}.egg-skin button{min-height:32px;font-size:10px;padding:5px 3px}.egg-tabs{margin-left:10px;margin-right:10px}.egg-skins-panel{margin-left:10px;margin-right:10px;padding:12px}}
 </style>
 
 

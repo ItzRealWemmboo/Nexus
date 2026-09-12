@@ -900,8 +900,8 @@ html { overflow-y: auto !important; }
 body { overflow-x: hidden !important; overflow-y: auto !important; min-height: 100vh; }
 main { min-height: 100%; }
 @media (max-width: 700px) {
-  html, body { touch-action: pan-y pinch-zoom !important; }
-  button, a { touch-action: manipulation; }
+  html, body { touch-action: pan-y !important; -ms-touch-action: pan-y !important; }
+  button, a { touch-action: manipulation !important; -webkit-user-select: none; user-select: none; }
 }
 </style>
 

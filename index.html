@@ -1104,6 +1104,10 @@ main { min-height: 100%; }
   .upgrade-buy-controls button { min-height: 27px !important; padding: 3px 5px !important; font-size: 8px !important; }
 }
 </style>
+<style>
+    .cracked-egg-icon{display:inline-flex;width:1.05em;height:1.05em;vertical-align:-0.12em;align-items:center;justify-content:center;margin-left:.08em;filter:drop-shadow(0 0 5px rgba(255,255,255,.35));}
+    .cracked-egg-icon svg{width:100%;height:100%;display:block;color:#f7f7f7;}
+</style>
 </head>
 
 <body>
@@ -1316,11 +1320,11 @@ main { min-height: 100%; }
 
         <div class="upgrade-grid">
           <button type="button" class="upgrade" onclick="buyUpgrade(0)">
-            <span>🥚 Starter Tap<small>+1 coin per click</small></span>
+            <span>🥚 Starter Tap<small>+1 coins per click</small></span>
             <strong id="cost0">10</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(1)">
-            <span>⚙️ Starter Generator<small>+1 coin every second</small></span>
+            <span>⚙️ Starter Generator<small>+1 coins every second</small></span>
             <strong id="cost1">25</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(2)">
@@ -1328,7 +1332,7 @@ main { min-height: 100%; }
             <strong id="cost2">60</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(3)">
-            <span>🏭 Mini Hatchery<small>+5 coins every second</small></span>
+            <span>🏭 Mini Hatchery<small>+7 coins every second</small></span>
             <strong id="cost3">100</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(4)">
@@ -1336,7 +1340,7 @@ main { min-height: 100%; }
             <strong id="cost4">250</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(5)">
-            <span>🐔 Golden Chicken<small>+25 coins every second</small></span>
+            <span>🐔 Golden Chicken<small>+35 coins every second</small></span>
             <strong id="cost5">450</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(6)">
@@ -1344,95 +1348,95 @@ main { min-height: 100%; }
             <strong id="cost6">1,200</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(7)">
-            <span>🏭 Coin Factory<small>+100 coins every second</small></span>
+            <span>🏭 Coin Factory<small>+150 coins every second</small></span>
             <strong id="cost7">1,800</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(8)">
-            <span>🌟 Cosmic Clicker<small>+100k coins per click</small></span>
+            <span>🌟 Cosmic Clicker<small>+12k coins per click</small></span>
             <strong id="cost8">6,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(9)">
-            <span>🚀 Rocket Hatchery<small>+500 coins every second</small></span>
+            <span>🚀 Rocket Hatchery<small>+1k coins every second</small></span>
             <strong id="cost9">7,500</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(10)">
-            <span>🌌 Galaxy Tap<small>+2m coins per click</small></span>
+            <span>🌌 Galaxy Tap<small>+20k coins per click</small></span>
             <strong id="cost10">20,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(11)">
-            <span>🌌 Galaxy Generator<small>+2.5k coins every second</small></span>
+            <span>🌌 Galaxy Generator<small>+1.5k coins every second</small></span>
             <strong id="cost11">35,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(12)">
-            <span>👽 Alien Clicker<small>+50m coins per click</small></span>
+            <span>👽 Alien Clicker<small>+35k coins per click</small></span>
             <strong id="cost12">90,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(13)">
-            <span>⚛️ Alien Reactor<small>+12.5k coins every second</small></span>
+            <span>⚛️ Alien Reactor<small>+2.5k coins every second</small></span>
             <strong id="cost13">150,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(14)">
-            <span>☄️ Meteor Clicker<small>+1.5b coins per click</small></span>
+            <span>☄️ Meteor Clicker<small>+100k coins per click</small></span>
             <strong id="cost14">400,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(15)">
-            <span>🏭 Meteor Factory<small>+70k coins every second</small></span>
+            <span>🏭 Meteor Factory<small>+10k coins every second</small></span>
             <strong id="cost15">700,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(16)">
-            <span>🔮 Quantum Tap<small>+50b coins per click</small></span>
+            <span>🔮 Quantum Tap<small>+500k coins per click</small></span>
             <strong id="cost16">2,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(17)">
-            <span>⚛️ Quantum Generator<small>+400k coins every second</small></span>
+            <span>⚛️ Quantum Generator<small>+40k coins every second</small></span>
             <strong id="cost17">3,500,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(18)">
-            <span>🌍 Planet Clicker<small>+2t coins per click</small></span>
+            <span>🌍 Planet Clicker<small>+3m coins per click</small></span>
             <strong id="cost18">10,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(19)">
-            <span>🏭 Planet Factory<small>+2.5m coins every second</small></span>
+            <span>🏭 Planet Factory<small>+250k coins every second</small></span>
             <strong id="cost19">18,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(20)">
-            <span>🌠 Stellar Engine<small>+100t coins per click</small></span>
+            <span>🌠 Stellar Engine<small>+15m coins per click</small></span>
             <strong id="cost20">50,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(21)">
-            <span>⚙️ Stellar Generator<small>+14m coins every second</small></span>
+            <span>⚙️ Stellar Generator<small>+1m coins every second</small></span>
             <strong id="cost21">90,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(22)">
-            <span>🔮 Reality Core<small>+5q coins per click</small></span>
+            <span>🔮 Reality Core<small>+100m coins per click</small></span>
             <strong id="cost22">250,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(23)">
-            <span>⚛️ Reality Reactor<small>+90m coins every second</small></span>
+            <span>⚛️ Reality Reactor<small>+7m coins every second</small></span>
             <strong id="cost23">450,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(24)">
-            <span>💫 Infinity Core<small>+250q coins per click</small></span>
+            <span>💫 Infinity Core<small>+100m coins per click</small></span>
             <strong id="cost24">1,200,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(25)">
-            <span>♾️ Infinity Generator<small>+550m coins every second</small></span>
+            <span>♾️ Infinity Generator<small>+10m coins every second</small></span>
             <strong id="cost25">2,200,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(26)">
-            <span>🧿 Omniverse Eye<small>+10000q coins per click</small></span>
+            <span>🧿 Omniverse Eye<small>+500m coins per click</small></span>
             <strong id="cost26">6,000,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(27)">
-            <span>🏭 Omniverse Factory<small>+3.5b coins every second</small></span>
+            <span>🏭 Omniverse Factory<small>+50m coins every second</small></span>
             <strong id="cost27">11,000,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(28)">
-            <span>🚀 NEXUS Ascender<small>+1e+06q coins per click</small></span>
+            <span>🚀 NEXUS Ascender<small>+3b coins per click</small></span>
             <strong id="cost28">30,000,000,000</strong>
           </button>
           <button type="button" class="upgrade" onclick="buyUpgrade(29)">
-            <span>♾️ NEXUS Generator<small>+22b coins every second</small></span>
+            <span>♾️ NEXUS Generator<small>+500m coins every second</small></span>
             <strong id="cost29">55,000,000,000</strong>
           </button>
         </div>
@@ -1593,17 +1597,21 @@ main { min-height: 100%; }
 })();
 </script>
 <script>
-    // Compact number display for the game UI.
+    // Compact number display. At 1 sextillion, the egg icon becomes the suffix.
+    const CRACKED_EGG_ICON = '<span class="cracked-egg-icon" aria-label="cracked egg" title="sextillion"><svg viewBox="0 0 64 64" role="img" aria-hidden="true"><path d="M32 5C21 5 10 27 10 42c0 11 9 17 22 17s22-6 22-17C54 27 43 5 32 5Z" fill="currentColor" opacity=".96"/><path d="M32 8c-2 8-5 13-3 18 2 5-3 7-2 12 1 4 4 6 7 4 3-2 1-6 5-9 3-3 5-6 4-11" fill="none" stroke="#10131a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 44c5 6 23 8 29 0" fill="none" stroke="#fff" stroke-width="2" opacity=".35" stroke-linecap="round"/></svg></span>';
+
     function formatNumber(value) {
       const n = Number(value) || 0, a = Math.abs(n);
-      if (a >= 1e15) return (n/1e15).toFixed(a>=1e16?0:2).replace(/\.?0+$/, "")+"q";
-      if (a >= 1e12) return (n/1e12).toFixed(a>=1e13?0:2).replace(/\.?0+$/, "")+"t";
-      if (a >= 1e9) return (n/1e9).toFixed(a>=1e10?0:2).replace(/\.?0+$/, "")+"b";
-      if (a >= 1e6) return (n/1e6).toFixed(a>=1e7?0:2).replace(/\.?0+$/, "")+"m";
-      if (a >= 1e3) return (n/1e3).toFixed(a>=1e4?0:2).replace(/\.?0+$/, "")+"k";
-      return Number.isInteger(n) ? String(n) : n.toFixed(2).replace(/\.?0+$/, "");
+      const trim = v => v.toFixed(2).replace(/\\.?0+$/, "");
+      if (a >= 1e21) return trim(n / 1e21) + " " + CRACKED_EGG_ICON;
+      if (a >= 1e18) return trim(n / 1e18) + "e";
+      if (a >= 1e15) return trim(n / 1e15) + "qd";
+      if (a >= 1e12) return trim(n / 1e12) + "t";
+      if (a >= 1e9) return trim(n / 1e9) + "b";
+      if (a >= 1e6) return trim(n / 1e6) + "m";
+      if (a >= 1e3) return trim(n / 1e3) + "k";
+      return Number.isInteger(n) ? String(n) : trim(n);
     }
-    Number.prototype.toLocaleString = function(){ return formatNumber(this.valueOf()); };
 
     let coins = 0;
     let clicks = 0;
@@ -2020,7 +2028,7 @@ main { min-height: 100%; }
 
     function upgradeClickEgg() {
       const cost = Math.floor(25 * Math.pow(1.6, clickEggLevel));
-      if (coins < cost) { document.getElementById("eggMessage").textContent = "You need " + (cost - coins).toLocaleString() + " more coins to upgrade the click egg."; return; }
+      if (coins < cost) { document.getElementById("eggMessage").innerHTML = "You need " + formatNumber(cost - coins) + " more coins to upgrade the click egg."; return; }
       coins -= cost; clickEggLevel++; power += Math.max(1, Math.floor(2 + clickEggLevel * 1.5));
       const egg = document.getElementById("bigClickEgg");
       egg.style.transform = "scale(1.22) rotate(-4deg)";
@@ -2295,12 +2303,14 @@ main { min-height: 100%; }
     function formatCoins(value) {
       const n = Number(value) || 0;
       const abs = Math.abs(n);
-      if (abs >= 1e18) return (n/1e18).toFixed(abs>=1e21?0:2).replace(/\.00$/,'')+'e';
-      if (abs >= 1e15) return (n/1e15).toFixed(abs>=1e18?0:2).replace(/\.00$/,'')+'qd';
-      if (abs >= 1e12) return (n/1e12).toFixed(abs>=1e15?0:2).replace(/\.00$/,'')+'t';
-      if (abs >= 1e9) return (n/1e9).toFixed(abs>=1e12?0:2).replace(/\.00$/,'')+'b';
-      if (abs >= 1e6) return (n/1e6).toFixed(abs>=1e9?0:2).replace(/\.00$/,'')+'m';
-      if (abs >= 1e3) return (n/1e3).toFixed(abs>=1e6?0:2).replace(/\.00$/,'')+'k';
+      const trim = v => v.toFixed(2).replace(/\\.?0+$/, "");
+      if (abs >= 1e21) return trim(n / 1e21) + " " + CRACKED_EGG_ICON;
+      if (abs >= 1e18) return trim(n / 1e18) + "e";
+      if (abs >= 1e15) return trim(n / 1e15) + "qd";
+      if (abs >= 1e12) return trim(n / 1e12) + "t";
+      if (abs >= 1e9) return trim(n / 1e9) + "b";
+      if (abs >= 1e6) return trim(n / 1e6) + "m";
+      if (abs >= 1e3) return trim(n / 1e3) + "k";
       return Math.floor(n).toLocaleString();
     }
     const upgrades = [
@@ -2312,28 +2322,28 @@ main { min-height: 100%; }
       { name:"Golden Chicken", cost:500, click:0, auto:35, multiplier:1 },
       { name:"Golden Finger", cost:1200, click:500, auto:0, multiplier:1 },
       { name:"Coin Factory", cost:2200, click:0, auto:150, multiplier:1 },
-      { name:"Cosmic Clicker", cost:6000, click:100000, auto:0, multiplier:1 },
+      { name:"Cosmic Clicker", cost:6000, click:12000, auto:0, multiplier:1 },
       { name:"Rocket Hatchery", cost:11000, click:0, auto:1000, multiplier:1 },
-      { name:"Galaxy Tap", cost:25000, click:2000000, auto:0, multiplier:1 },
-      { name:"Galaxy Generator", cost:45000, click:0, auto:5500, multiplier:1 },
-      { name:"Alien Clicker", cost:90000, click:50000000, auto:0, multiplier:1 },
-      { name:"Alien Reactor", cost:180000, click:0, auto:28000, multiplier:1 },
-      { name:"Meteor Clicker", cost:400000, click:1500000000, auto:0, multiplier:1 },
-      { name:"Meteor Factory", cost:850000, click:0, auto:150000, multiplier:1 },
-      { name:"Quantum Tap", cost:2000000, click:50000000000, auto:0, multiplier:1 },
-      { name:"Quantum Generator", cost:4500000, click:0, auto:1000000, multiplier:1 },
-      { name:"Planet Clicker", cost:9000000, click:2000000000000, auto:0, multiplier:1 },
-      { name:"Planet Factory", cost:24000000, click:0, auto:6500000, multiplier:1 },
-      { name:"Stellar Engine", cost:35000000, click:100000000000000, auto:0, multiplier:1 },
-      { name:"Stellar Generator", cost:100000000, click:0, auto:32000000, multiplier:1 },
-      { name:"Reality Core", cost:150000000, click:5000000000000000, auto:0, multiplier:1 },
-      { name:"Reality Reactor", cost:550000000, click:0, auto:190000000, multiplier:1 },
-      { name:"Infinity Core", cost:600000000, click:250000000000000000, auto:0, multiplier:1 },
-      { name:"Infinity Generator", cost:2500000000, click:0, auto:900000000, multiplier:1 },
-      { name:"Omniverse Eye", cost:2500000000, click:10000000000000000000, auto:0, multiplier:1 },
-      { name:"Omniverse Factory", cost:11000000000, click:0, auto:4500000000, multiplier:1 },
-      { name:"NEXUS Ascender", cost:10000000000, click:1000000000000000000000, auto:0, multiplier:1 },
-      { name:"NEXUS Generator", cost:50000000000, click:0, auto:22000000000, multiplier:1 }
+      { name:"Galaxy Tap", cost:25000, click:20000, auto:0, multiplier:1 },
+      { name:"Galaxy Generator", cost:45000, click:1500, auto:5500, multiplier:1 },
+      { name:"Alien Clicker", cost:90000, click:35000, auto:0, multiplier:1 },
+      { name:"Alien Reactor", cost:180000, click:2500, auto:7000, multiplier:1 },
+      { name:"Meteor Clicker", cost:400000, click:100000, auto:0, multiplier:1 },
+      { name:"Meteor Factory", cost:850000, click:10000, auto:50000, multiplier:1 },
+      { name:"Quantum Tap", cost:2000000, click:500000, auto:0, multiplier:1 },
+      { name:"Quantum Generator", cost:4500000, click:40000, auto:250000, multiplier:1 },
+      { name:"Planet Clicker", cost:9000000, click:3000000, auto:0, multiplier:1 },
+      { name:"Planet Factory", cost:24000000, click:250000, auto:1500000, multiplier:1 },
+      { name:"Stellar Engine", cost:35000000, click:15000000, auto:0, multiplier:1 },
+      { name:"Stellar Generator", cost:100000000, click:1000000, auto:15000000, multiplier:1 },
+      { name:"Reality Core", cost:150000000, click:100000000, auto:0, multiplier:1 },
+      { name:"Reality Reactor", cost:550000000, click:7000000, auto:75000000, multiplier:1 },
+      { name:"Infinity Core", cost:600000000, click:100000000, auto:0, multiplier:1 },
+      { name:"Infinity Generator", cost:2500000000, click:10000000, auto:350000000, multiplier:1 },
+      { name:"Omniverse Eye", cost:2500000000, click:500000000, auto:0, multiplier:1 },
+      { name:"Omniverse Factory", cost:11000000000, click:50000000, auto:1500000000, multiplier:1 },
+      { name:"NEXUS Ascender", cost:10000000000, click:3000000000, auto:0, multiplier:1 },
+      { name:"NEXUS Generator", cost:50000000000, click:500000000, auto:8000000000, multiplier:1 }
     ];
 
     const pets = [
@@ -2414,9 +2424,9 @@ main { min-height: 100%; }
       const button = document.querySelectorAll(".upgrade")[index];
       button.classList.remove("bought");
       button.disabled = false;
-      button.querySelector("strong").textContent = formatCoins(upgradeBatchCost(index, upgradeBuyAmount));
+      button.querySelector("strong").innerHTML = formatCoins(upgradeBatchCost(index, upgradeBuyAmount));
       const small = button.querySelector("small");
-      small.textContent = (upgrade.click ? "+" + formatCoins(upgrade.click) + " coins per click" : upgrade.auto ? "+" + formatCoins(upgrade.auto) + " coins every second" : "x" + upgrade.multiplier + " coin multiplier") + " • Lv. " + purchased[index];
+      small.innerHTML = (upgrade.click ? "+" + formatNumber(upgrade.click) + " coins per click" : upgrade.auto ? "+" + formatNumber(upgrade.auto) + " coins every second" : "x" + upgrade.multiplier + " coin multiplier") + " • Lv. " + purchased[index];
       document.getElementById("upgradeMessage").textContent = upgrade.name + " +" + amount + " levels! Now level " + purchased[index] + ".";
       document.getElementById("shopLevel").textContent = purchased.reduce((a,b)=>a+b,0) + 1;
       updateGame();
@@ -2482,7 +2492,7 @@ main { min-height: 100%; }
 
     function rebirth() {
       const cost = 1000000 * Math.pow(5, rebirths);
-      if (coins < cost) { document.getElementById("rebirthMessage").textContent = "You need " + (cost - coins).toLocaleString() + " more coins to rebirth."; return; }
+      if (coins < cost) { document.getElementById("rebirthMessage").innerHTML = "You need " + formatNumber(cost - coins) + " more coins to rebirth."; return; }
       coins = 0; clicks = 0; power = 1; clickEggLevel = 0; autoIncome = 0; rebirths++;
       multiplier = 1 + rebirths;
       ownedPets.forEach((owned, index) => { if (owned) multiplier *= pets[index].bonus; });
@@ -2492,19 +2502,19 @@ main { min-height: 100%; }
     }
 
     function updateGame() {
-      document.getElementById("coinDisplay").textContent = coins.toLocaleString();
+      document.getElementById("coinDisplay").innerHTML = formatNumber(coins);
       const shopCoins = document.getElementById("shopCoins");
-      if (shopCoins) shopCoins.textContent = coins.toLocaleString();
-      document.getElementById("powerDisplay").textContent = power;
-      document.getElementById("eggMessage").textContent = clicks.toLocaleString() + (clicks === 1 ? " click" : " clicks");
+      if (shopCoins) shopCoins.innerHTML = formatNumber(coins);
+      document.getElementById("powerDisplay").innerHTML = formatCoins(power);
+      document.getElementById("eggMessage").innerHTML = formatNumber(clicks) + (clicks === 1 ? " click" : " clicks");
       document.getElementById("petCount").textContent = ownedPets.filter(Boolean).length + " / " + pets.length;
       document.getElementById("rebirthDisplay").textContent = rebirths;
       const cost = 1000000 * Math.pow(5, rebirths);
-      document.getElementById("rebirthButton").textContent = "REBIRTH FOR " + cost.toLocaleString() + " COINS";
+      document.getElementById("rebirthButton").innerHTML = "REBIRTH FOR " + formatNumber(cost) + " COINS";
       document.getElementById("rebirthButton").disabled = coins < cost;
       updateClickEggUpgrade();
       document.getElementById("comboDisplay").textContent = clicks >= 100 ? "EGG MASTER!" : clicks >= 25 ? "KEEP GOING!" : "CLICK THE EGG!";
-      document.querySelectorAll(".upgrade").forEach((button, index) => { if (upgrades[index]) { button.querySelector("strong").textContent = formatCoins(upgradeBatchCost(index, upgradeBuyAmount)); } });
+      document.querySelectorAll(".upgrade").forEach((button, index) => { if (upgrades[index]) { button.querySelector("strong").innerHTML = formatCoins(upgradeBatchCost(index, upgradeBuyAmount)); } });
       updateWeatherUI();
       saveProgress();
     }
